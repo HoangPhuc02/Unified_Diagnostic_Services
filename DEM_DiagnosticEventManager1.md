@@ -142,6 +142,24 @@ Monitor báo cho DEM trạng thái event thông qua các trạng thái điển h
 
 Debouncing là cơ chế chống ghi nhận lỗi sai do nhiễu, transients hoặc điều kiện dao động quanh ngưỡng.
 
+Về bản chất, debouncing là **lớp qualification** nằm giữa kết luận tức thời của monitor và quyết định chẩn đoán chính thức của DEM. Điều này có nghĩa:
+
+1. Monitor có thể phát hiện một dấu hiệu bất thường ở thời điểm rất ngắn.
+2. Nhưng DEM chưa vội coi đó là một fault thực sự có giá trị chẩn đoán.
+3. DEM chỉ chuyển event sang trạng thái failed hoặc passed chính thức khi bằng chứng đã đủ mạnh theo rule cấu hình.
+
+Nói cách khác, debouncing giúp tách biệt giữa:
+
+1. **raw fault evidence** từ monitor.
+2. **qualified diagnostic state** mà DTC status byte, event memory và tester sẽ nhìn thấy.
+
+Nếu không có debouncing, ECU rất dễ gặp các vấn đề sau:
+
+1. Fault chập chờn vài mili-giây đã lập tức thành DTC.
+2. Freeze frame bị chụp sai ngữ cảnh vì lỗi chưa thực sự ổn định.
+3. Warning indicator bật/tắt liên tục gây khó hiểu cho người sử dụng.
+4. Flash/NvM bị ghi quá thường xuyên vì các lỗi giả hoặc lỗi biên.
+
 Các kiểu debounce điển hình:
 
 1. **Counter-based debouncing**
@@ -157,6 +175,140 @@ Debouncing rất quan trọng vì nó ảnh hưởng trực tiếp đến:
 2. Tần suất lưu bộ nhớ chẩn đoán.
 3. Độ ổn định của warning indicator.
 4. Tỷ lệ false positive trong quá trình chẩn đoán xe.
+
+Để hiểu đúng debouncing trong DEM, nên nhìn nó qua 4 lớp hành vi sau:
+
+1. **Input behavior**
+	DEM nhận `PREFAILED`, `PREPASSED`, `FAILED`, `PASSED` hoặc một số biến thể do monitor/backend cung cấp.
+2. **Internal qualification**
+	DEM tăng, giảm hoặc giữ một trạng thái trung gian như counter, timer hoặc FDC.
+3. **Threshold crossing**
+	Chỉ khi vượt ngưỡng thì event mới đổi sang failed/passed đủ điều kiện.
+4. **Diagnostic side effects**
+	Sau khi qualified, DEM mới cập nhật DTC status bits, chụp snapshot, lưu event memory hoặc yêu cầu indicator.
+
+#### Counter-based debouncing chi tiết hơn
+
+Đây là kiểu debounce phổ biến nhất trong DEM vì dễ cấu hình, trực quan và phù hợp với nhiều monitor dạng định kỳ.
+
+Thông thường counter-based debounce có các thành phần logic sau:
+
+1. **FailedThreshold**: ngưỡng để kết luận qualified failed.
+2. **PassedThreshold**: ngưỡng để kết luận qualified passed.
+3. **IncrementStepSize**: bước tăng counter khi monitor tiếp tục báo xu hướng fail.
+4. **DecrementStepSize**: bước giảm counter khi monitor báo xu hướng phục hồi.
+5. **JumpUp / JumpDown**: cơ chế nhảy nhanh tới một giá trị định sẵn để rút ngắn thời gian qualification khi có một số điều kiện đặc biệt.
+6. **Saturation / clamp**: giới hạn counter không vượt biên cấu hình.
+
+Ý nghĩa thực tế của 2 ngưỡng `FailedThreshold` và `PassedThreshold` là tạo ra **hysteresis**. Nhờ đó event không nhảy qua lại liên tục giữa passed và failed khi tín hiệu ở vùng biên.
+
+Ví dụ một luồng counter-based điển hình:
+
+1. Event đang stable ở passed.
+2. Monitor bắt đầu gửi `PREFAILED` liên tiếp.
+3. Counter tăng dần từng bước.
+4. Khi counter chạm `FailedThreshold`, DEM mới coi event là failed chính thức.
+5. Sau đó nếu monitor gửi `PREPASSED`, counter giảm dần.
+6. Chỉ khi counter xuống `PassedThreshold`, DEM mới coi event đã phục hồi về passed.
+
+```mermaid
+flowchart TD
+	A[Monitor report received] --> B{Status trend}
+	B -->|PREFAILED or FAILED trend| C[Increase debounce counter]
+	B -->|PREPASSED or PASSED trend| D[Decrease debounce counter]
+	C --> E{Counter >= FailedThreshold?}
+	E -->|Yes| F[Qualified FAILED]
+	E -->|No| G[Remain in intermediate fail-leaning state]
+	D --> H{Counter <= PassedThreshold?}
+	H -->|Yes| I[Qualified PASSED]
+	H -->|No| J[Remain in intermediate pass-leaning state]
+```
+
+Một số nuance quan trọng của counter-based debounce:
+
+1. Không phải cứ monitor báo `PREFAILED` một lần là event sẽ failed.
+2. Không phải cứ monitor báo `PREPASSED` một lần là event sẽ healed.
+3. Cùng một event nhưng nếu `IncrementStepSize` lớn hơn `DecrementStepSize` thì hệ thống sẽ nhạy với fail hơn so với phục hồi.
+4. Nếu cấu hình `JumpUp` hoặc `JumpDown`, event có thể tiến rất nhanh tới vùng qualification thay vì đi tuyến tính.
+
+#### Time-based debouncing chi tiết hơn
+
+Time-based debounce hữu ích khi fault chỉ nên được công nhận nếu tồn tại liên tục trong một khoảng thời gian tối thiểu.
+
+Ví dụ điển hình:
+
+1. Điện áp nguồn tụt trong vài mili-giây chưa chắc là fault thực.
+2. Mất truyền thông ngắn ngay khi mạng mới wake-up có thể chưa nên thành DTC.
+3. Cảm biến ở giai đoạn khởi động cần một khoảng settle time trước khi được đánh giá nghiêm ngặt.
+
+Trong time-based debounce, DEM hoặc monitor sẽ giữ một timer logic:
+
+1. Nếu điều kiện lỗi kéo dài đủ lâu thì event mới failed.
+2. Nếu điều kiện phục hồi kéo dài đủ lâu thì event mới passed.
+3. Nếu điều kiện đổi chiều trước khi đủ thời gian, timer có thể reset hoặc đổi hướng theo policy.
+
+Ưu điểm của kiểu này là dễ bám sát các yêu cầu dạng “fault must persist for X ms”. Nhược điểm là nó phụ thuộc mạnh vào scheduling và tick timing của hệ thống.
+
+#### Monitor-internal debouncing
+
+Với monitor-internal debouncing, phần debounce không nằm trong DEM mà nằm ngay trong logic monitor. Khi đó DEM nhận các kết luận đã “lọc nhiễu” sẵn.
+
+Ưu điểm:
+
+1. Monitor có thể dùng nhiều ngữ cảnh vật lý đặc thù mà DEM không biết.
+2. Dễ tối ưu cho các tín hiệu phức tạp hoặc thuật toán chẩn đoán chuyên biệt.
+
+Nhược điểm:
+
+1. Tính nhất quán giữa các monitor giảm nếu mỗi monitor debounce theo kiểu riêng.
+2. Việc tuning ở mức hệ thống khó hơn vì logic phân tán.
+3. DEM mất bớt khả năng quan sát trạng thái trung gian.
+
+#### Quan hệ giữa Debouncing, FDC và DTC lifecycle
+
+Debouncing không tồn tại độc lập. Nó chi phối trực tiếp các phần sau:
+
+1. **FDC** thường là biểu diễn định lượng của mức qualification hiện tại.
+2. **DTC status bits** chỉ đổi mạnh sau khi event được qualified.
+3. **Event memory entry** thường chỉ được allocate hoặc update sau khi fault đạt trigger rule.
+4. **Freeze frame** chỉ có ý nghĩa nếu chụp ở thời điểm event đủ điều kiện lưu.
+5. **Indicator request** cũng nên bám vào qualified state chứ không phải raw monitor pulse.
+
+Một cách hiểu thực dụng là:
+
+1. Debounce quyết định **khi nào event được tin**.
+2. Confirmation logic quyết định **khi nào event được xác nhận lâu dài**.
+3. Aging/healing logic quyết định **khi nào event được quên đi hoặc hạ mức**.
+
+#### Debouncing tại thời điểm khởi động ECU
+
+Debouncing đặc biệt nhạy cảm trong giai đoạn startup vì lúc đó rất nhiều tín hiệu chưa ổn định:
+
+1. Nguồn có thể chưa settle.
+2. Bus communication có thể chưa fully available.
+3. Sensor chưa warm-up hoặc chưa hợp lệ.
+4. Operation cycle vừa mới mở nên nhiều bit lịch sử đang được reset hoặc khôi phục.
+
+Vì vậy trong hệ thống thực tế thường cần kết hợp debouncing với:
+
+1. **Enable conditions** để chưa cho monitor có hiệu lực quá sớm.
+2. **Storage conditions** để không lưu fault trong giai đoạn startup nhạy cảm.
+3. **Pre-init buffering** cho một số BSW errors thật sự quan trọng.
+4. **Counter/timer reset policy** rõ ràng khi ECU vừa khởi động hoặc sau clear/reset.
+
+#### Tuning guidelines thực tế cho debouncing
+
+Khi tune debounce cho DEM, cần tránh hai cực đoan:
+
+1. **Quá nhạy**: fault xuất hiện nhanh nhưng tạo nhiều false positive.
+2. **Quá lì**: fault thật tồn tại nhưng hệ thống phản ứng quá chậm.
+
+Một số tiêu chí tune tốt:
+
+1. Fault an toàn hoặc fault có thể gây hư hại nên có qualification nhanh hơn.
+2. Fault từ sensor nhiễu hoặc communication startup nên có hysteresis lớn hơn.
+3. Các fault cần hiển thị cho người lái nên tránh cấu hình làm indicator chớp tắt.
+4. Fault có tác động tới NvM nên phải cân bằng giữa độ nhạy và tuổi thọ bộ nhớ.
 
 Sơ đồ trạng thái khái quát của quá trình debounce:
 
@@ -297,6 +449,55 @@ Ví dụ thực tế:
 1. Có thể chỉ cho phép monitor hoạt động khi engine đã running ổn định.
 2. Có thể cho phép monitor chạy, nhưng không lưu DTC trong một mode sản xuất, service mode hoặc điều kiện nguồn chưa ổn định.
 
+### 4.14 Startup Behaviour
+
+Startup behaviour của DEM là tập hợp các hành vi mà module phải thực hiện trong giai đoạn ECU vừa bật nguồn cho đến khi chuyển sang trạng thái chẩn đoán bình thường.
+
+Đây là một chủ đề quan trọng vì giai đoạn startup thường là nơi dễ phát sinh:
+
+1. False fault do nguồn, bus hoặc sensor chưa ổn định.
+2. Mất đồng bộ giữa RAM state và dữ liệu chẩn đoán khôi phục từ NvM.
+3. Event đến quá sớm từ BSW trước khi DEM full init xong.
+4. Các bit theo operation cycle bị set/xóa sai thời điểm.
+
+Một startup behaviour điển hình của DEM có thể được chia thành các pha sau:
+
+1. **Pre-initialization**
+	DEM vào trạng thái tối thiểu để có thể nhận hoặc buffer một số lỗi BSW sớm nếu implementation hỗ trợ.
+2. **Configuration binding**
+	DEM nạp bảng cấu hình event, DTC, memory class, debounce class, data class và cycle definition.
+3. **RAM initialization**
+	Các biến runtime, counters, queue và internal state machine được đặt về trạng thái khởi đầu.
+4. **NvM restore**
+	DEM khôi phục event memory, DTC history, counters và metadata persistent.
+5. **State reconciliation**
+	DEM đồng bộ lại các trạng thái vừa khôi phục với trạng thái operation cycle mới mở.
+6. **Transition to normal monitoring**
+	Sau khi conditions cần thiết đã sẵn sàng, DEM mới xử lý event như chế độ vận hành bình thường.
+
+```mermaid
+flowchart TD
+	A[Power on or ECU reset] --> B[DEM PreInit if supported]
+	B --> C[Load configuration and initialize RAM]
+	C --> D[Restore persistent diagnostic data from NvM]
+	D --> E[Reconcile DTC state with current operation cycle]
+	E --> F[Apply startup enable and storage conditions]
+	F --> G[Flush pre-init reports or accept live reports]
+	G --> H[Normal DEM operation]
+```
+
+Một số rule thực dụng trong startup behaviour:
+
+1. **Không phải mọi event report đến sớm đều nên bị bỏ qua**. Một số BSW faults trong giai đoạn khởi động vẫn có giá trị chẩn đoán thật.
+2. **Không phải mọi event report đến sớm đều nên được lưu ngay**. Nhiều fault ở startup chỉ là transient.
+3. **Cycle-dependent bits** cần được reset theo đúng semantics của operation cycle mới, nhưng dữ liệu persistent như confirmed history vẫn phải được giữ nếu policy yêu cầu.
+4. **Enable condition** thường là công cụ chính để trì hoãn đánh giá các monitor chưa hợp lệ trong giai đoạn đầu.
+
+Startup behaviour tốt sẽ giúp DEM tránh hai lỗi hệ thống phổ biến:
+
+1. Ghi nhận quá nhiều DTC giả ngay sau key-on.
+2. Làm mất các DTC có giá trị hậu kiểm sau reset nguồn.
+
 ## 5. Functional Description của DEM
 
 Phần này mô tả chi tiết DEM hoạt động như thế nào theo từng nhóm chức năng chính.
@@ -311,11 +512,60 @@ Khi ECU khởi động, DEM đi qua các bước logic sau:
 4. Đồng bộ lại trạng thái nội bộ của event memory và các bộ đếm.
 5. Thiết lập trạng thái khởi đầu cho các bit chẩn đoán phụ thuộc operation cycle.
 
+Nếu mô tả kỹ hơn theo startup behaviour thực tế, DEM thường đi qua các pha sau:
+
+1. **Pre-init phase**
+	Một số implementation có pha `Dem_PreInit` hoặc cơ chế tương đương để chưa vào full service nhưng vẫn không bỏ lỡ các lỗi BSW quá sớm.
+2. **Full init phase**
+	DEM bind toàn bộ cấu hình, tạo runtime structures và chuẩn bị memory/state machine.
+3. **Restore phase**
+	DEM đọc lại các entry từ NvM như primary memory, counters, freeze frame metadata hoặc các record cần giữ sau reset.
+4. **Reconciliation phase**
+	DEM phân biệt dữ liệu nào là lịch sử cần giữ, dữ liệu nào là cycle-local cần reset hoặc đánh dấu lại.
+5. **Startup stabilization phase**
+	DEM phối hợp với enable conditions, storage conditions và mode state để tránh đánh giá monitor quá sớm.
+6. **Operational phase**
+	DEM chuyển sang xử lý event theo logic bình thường, bao gồm debounce, DTC update và event memory management.
+
+```mermaid
+sequenceDiagram
+	participant ECU as ECU Startup
+	participant Dem as DEM
+	participant Nvm as NvM
+	participant Mon as Monitors / BSW
+
+	ECU->>Dem: Power-on startup
+	Dem->>Dem: PreInit and basic internal state
+	Dem->>Dem: Load configuration and initialize RAM
+	Dem->>Nvm: Restore persistent diagnostic records
+	Nvm-->>Dem: Event memory and metadata
+	Dem->>Dem: Reconcile restored state with current operation cycle
+	Dem->>Dem: Apply startup enable and storage policies
+	Mon->>Dem: Early event reports
+	Dem->>Dem: Buffer, defer or process depending on init state
+	Dem->>Dem: Enter normal diagnostic operation
+```
+
 Ý nghĩa chức năng:
 
 1. DEM phải phân biệt dữ liệu chỉ có hiệu lực trong một operation cycle với dữ liệu cần giữ sau reset nguồn.
 2. DEM phải đảm bảo không làm mất các DTC confirmed cần tồn tại lâu dài.
 3. Nếu khôi phục từ NvM thất bại, DEM phải có chiến lược fallback theo cấu hình hoặc vendor implementation.
+4. DEM phải có chiến lược rõ ràng cho event đến sớm trong giai đoạn startup, đặc biệt là BSW faults.
+5. DEM phải tránh việc source chưa ổn định ở startup gây set DTC, capture freeze frame hoặc bật indicator không mong muốn.
+
+Một số tình huống startup cần xử lý cẩn thận:
+
+1. **Nguồn chưa ổn định**
+	Lỗi undervoltage hoặc communication timeout có thể xuất hiện ngắn hạn nhưng chưa chắc là fault thật cần lưu.
+2. **Sensor chưa valid**
+	Nhiều sensor cần thời gian warm-up hoặc cần một mode vận hành nhất định mới có ý nghĩa chẩn đoán.
+3. **Bus chưa fully alive**
+	Timeout của network ở vài chu kỳ đầu không nên luôn bị đối xử như fault confirmed.
+4. **NvM restore chưa xong**
+	Nếu DEM nhận event mới khi dữ liệu cũ chưa reconcile xong, trạng thái fault có thể bị sai nếu implementation không khóa hoặc đệm hợp lý.
+
+Vì vậy, startup behaviour tốt trong DEM không chỉ là “gọi init”, mà là một chiến lược kiểm soát việc **khi nào được phép tin vào monitor**, **khi nào được phép lưu fault** và **khi nào mới chuyển sang trạng thái diagnostic operation đầy đủ**.
 
 ### 5.2 Tiếp nhận báo cáo lỗi từ monitor
 
