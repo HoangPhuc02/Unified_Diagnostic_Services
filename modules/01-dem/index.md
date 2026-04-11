@@ -1,11 +1,11 @@
 ---
 layout: default
-title: DEM - Diagnostic Event Manager
-nav_title: DEM
+title: DEM - Diagnostic Event Manager Visual
+nav_title: DEM Visual
 nav_order: 2
-description: Ban render GitHub Pages cho tai lieu DEM trong cau truc modules/01-dem, ho tro Mermaid va mo rong de dang.
+description: Tai lieu DEM
 permalink: /dem/
 source_file: modules/01-dem/content.md
 ---
-{% capture dem_source %}{% include_relative content.md %}{% endcapture %}
-{{ dem_source | markdownify }}
+{% capture dem_visual_source %}{% include_relative content.md %}{% endcapture %}
+{{ dem_visual_source | markdownify }}
