@@ -1,11 +1,11 @@
 ﻿---
 layout: default
-title: DEM - Diagnostic Event Manager
+title: "DEM - Part 1 Overview"
 nav_exclude: true
 module: true
 tags: [autosar, dem, diagnostics, event-manager]
-description: Tài liệu kỹ thuật về DEM – quản lý vòng đời lỗi, DTC, freeze frame và indicator trong AUTOSAR Classic.
-permalink: /dem/
+description: "DEM phần 1 Tài liệu kỹ thuật về DEM – quản lý vòng đời lỗi, DTC, freeze frame và indicator trong AUTOSAR Classic."
+permalink: /dem-overview/
 ---
 
 # DEM - Diagnostic Event Manager

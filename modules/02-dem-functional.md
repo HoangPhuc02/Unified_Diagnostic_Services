@@ -1,6 +1,6 @@
 ﻿---
 layout: default
-title: "DEM - Functional Description"
+title: "DEM - Part 2 Functional Description"
 nav_exclude: true
 module: true
 tags: [autosar, dem, diagnostics, event-manager, functional]
