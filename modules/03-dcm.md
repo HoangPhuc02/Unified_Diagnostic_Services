@@ -109,81 +109,15 @@ Các mục tiêu chức năng điển hình:
 
 ## 4. Các khái niệm cốt lõi trong DCM
 
-### 4.1 Mô hình client-server của UDS
+### 4.1 – 4.4 Nền tảng giao thức UDS (tham chiếu)
 
-UDS hoạt động theo mô hình **client-server**:
+> Các khái niệm nền tảng sau thuộc về **giao thức UDS** chứ không riêng DCM. Xem chi tiết tại [UDS Overview](/uds-overview/):
+> - **Mô hình client-server** – tester là client, ECU/DCM là server, hoạt động request-driven.
+> - **SID / RSID** – mỗi dịch vụ có Service Identifier; positive response = SID + 0x40; negative response = `0x7F + SID + NRC`.
+> - **Cấu trúc diagnostic message** – SID → sub-function → parameters. DCM xử lý payload đã được transport layer tái lắp ghép.
+> - **Addressing mode** – physical (1 ECU) và functional (broadcast logic). Ảnh hưởng đến service permission và response suppression.
 
-1. **Tester** là client.
-2. **ECU với DCM** là server.
-
-Tester chủ động gửi request, còn DCM:
-
-1. Nhận request.
-2. Phân tích request.
-3. Xử lý hoặc chuyển cho backend phù hợp.
-4. Trả positive response hoặc negative response.
-
-Điều này khác với các giao thức phát dữ liệu định kỳ. DCM phần lớn là **request-driven**.
-
-### 4.2 UDS Service Identifier (SID) và Response SID (RSID)
-
-Mỗi dịch vụ UDS có một **SID**. Ví dụ:
-
-| SID | Dịch vụ |
-|---|---|
-| `0x10` | DiagnosticSessionControl |
-| `0x11` | ECUReset |
-| `0x14` | ClearDiagnosticInformation |
-| `0x19` | ReadDTCInformation |
-| `0x22` | ReadDataByIdentifier |
-| `0x27` | SecurityAccess |
-| `0x28` | CommunicationControl |
-| `0x2E` | WriteDataByIdentifier |
-| `0x2F` | InputOutputControlByIdentifier |
-| `0x31` | RoutineControl |
-| `0x34` / `0x36` / `0x37` | Programming-related services |
-| `0x3E` | TesterPresent |
-| `0x85` | ControlDTCSetting |
-
-Thông thường positive response có **RSID = SID + 0x40**.
-
-Ví dụ:
-
-1. Request `0x10` -> Positive response `0x50`.
-2. Request `0x22` -> Positive response `0x62`.
-3. Request `0x31` -> Positive response `0x71`.
-
-Negative response lại dùng mẫu cố định `0x7F + SID gốc + NRC`.
-
-### 4.3 Cấu trúc diagnostic message
-
-Ở mức khái niệm, DCM xử lý payload theo logic sau:
-
-1. Byte đầu tiên là SID.
-2. Một số service có **sub-function** ở byte tiếp theo.
-3. Sau đó là request parameters như DID, RID, address, length, masks, data payload.
-
-```mermaid
-flowchart LR
-	MSG[Diagnostic Request Payload] --> SID[SID]
-	MSG --> SUB[Sub-function if applicable]
-	MSG --> PAR[Parameters: DID / RID / DTC group / masks / data]
-```
-
-DCM không quan tâm bản chất vật lý của CAN frame theo nghĩa application-level payload. Transport layer đã lo việc phân mảnh/gom frame; DCM xử lý **request message đã được tái lắp ghép hợp lệ**.
-
-### 4.4 Addressing mode: Physical và Functional
-
-UDS request có thể đi theo hai kiểu địa chỉ logic:
-
-1. **Physical addressing**: request nhắm tới một ECU cụ thể.
-2. **Functional addressing**: request phát quảng bá logic tới nhiều ECU hỗ trợ cùng dịch vụ.
-
-Ý nghĩa với DCM:
-
-1. Một số service chỉ hợp lệ với physical addressing.
-2. Một số response có thể bị hạn chế hoặc không được gửi trong một số functional request.
-3. Hành vi suppression hoặc multi-response phải tuân theo protocol rules và cấu hình cụ thể.
+Phần dưới đây tập trung vào các khái niệm **đặc thù triển khai DCM** trong AUTOSAR.
 
 ### 4.5 Kiến trúc nội bộ DCM: DSL, DSD, DSP
 
@@ -334,95 +268,19 @@ thường không được DCM tự xử lý dữ liệu nền. DCM đóng vai tr
 
 Tức là DCM là **protocol facade**, còn DEM là **diagnostic state/data owner**.
 
-### 4.11 Negative Response Code (NRC)
+### 4.11 – 4.14 Giao thức UDS: NRC, Timing, TesterPresent, Multi-frame (tham chiếu)
 
-Khi request không thể thực hiện, DCM trả negative response dạng:
-
-1. `0x7F`
-2. SID gốc
-3. NRC
-
-Một số NRC quan trọng DCM thường phải sử dụng:
-
-| NRC | Ý nghĩa |
-|---|---|
-| `0x11` | serviceNotSupported |
-| `0x12` | subFunctionNotSupported |
-| `0x13` | incorrectMessageLengthOrInvalidFormat |
-| `0x22` | conditionsNotCorrect |
-| `0x24` | requestSequenceError |
-| `0x31` | requestOutOfRange |
-| `0x33` | securityAccessDenied |
-| `0x35` | invalidKey |
-| `0x36` | exceedNumberOfAttempts |
-| `0x37` | requiredTimeDelayNotExpired |
-| `0x78` | requestCorrectlyReceived-ResponsePending |
-| `0x7E` | subFunctionNotSupportedInActiveSession |
-| `0x7F` | serviceNotSupportedInActiveSession |
-
-Điểm quan trọng là DCM không chỉ kiểm tra syntax, mà còn phải chọn **NRC đúng ngữ nghĩa**.
-
-### 4.12 Timing: P2, P2*, S3Server và ResponsePending
-
-Timing là phần cực kỳ quan trọng của DCM.
-
-1. **P2Server**: thời gian server nên phản hồi sau request.
-2. **P2*Server**: thời gian kéo dài khi service cần xử lý lâu hơn.
-3. **S3Server**: timeout để DCM tự rơi về default session nếu tester không còn active.
-4. **ResponsePending (`0x78`)**: cơ chế để ECU báo rằng request đã nhận đúng, nhưng xử lý chưa xong.
-
-```mermaid
-flowchart LR
-	REQ[Request received] --> FAST{Can finish within P2?}
-	FAST -->|Yes| POS[Send positive or negative response]
-	FAST -->|No| PEND[Send NRC 0x78 ResponsePending]
-	PEND --> LONG[Continue backend execution]
-	LONG --> DONE[Send final response within P2* policy]
-```
-
-### 4.13 TesterPresent
-
-`0x3E TesterPresent` được dùng để báo cho ECU rằng tester vẫn đang kết nối. Điều này giúp:
-
-1. Giữ session hiện tại không bị timeout.
-2. Tránh ECU quay về default session quá sớm.
-3. Hỗ trợ các phiên extended/programming kéo dài.
-
-### 4.14 Single-frame và multi-frame communication
-
-Trên CAN, DCM thường không trực tiếp xử lý frame segmentation, nhưng DCM phải hoạt động phù hợp với thực tế rằng request/response có thể:
-
-1. Nằm gọn trong **single frame**.
-2. Hoặc vượt quá giới hạn payload và cần **multi-frame** qua ISO-TP.
-
-Điều này tác động trực tiếp tới:
-
-1. Buffer sizing của DCM.
-2. Paged buffer hoặc streaming strategy.
-3. Timing và retry logic.
-4. Dịch vụ như VIN read, large DID, flash transfer.
-
-```mermaid
-sequenceDiagram
-	participant Tester
-	participant TP as CanTp / ISO-TP
-	participant DCM
-
-	Tester->>TP: Request SF or segmented request
-	TP->>DCM: Reassembled request payload
-	DCM->>TP: Response payload
-	alt Response fits in single frame
-		TP-->>Tester: Single Frame response
-	else Response is large
-		TP-->>Tester: First Frame
-		Tester->>TP: Flow Control
-		TP-->>Tester: Consecutive Frames
-	end
-```
+> Các khái niệm sau thuộc về **giao thức UDS / ISO-TP** và được trình bày chi tiết tại [UDS Overview](/uds-overview/) và [CanTp](/cantp/):
+> - **Negative Response Code (NRC)** – bảng NRC chuẩn (`0x11` serviceNotSupported, `0x33` securityAccessDenied, `0x78` ResponsePending, v.v.). DCM phải chọn NRC đúng ngữ nghĩa, không chỉ syntax.
+> - **Timing P2, P2\*, S3Server** – P2 là deadline phản hồi, P2\* cho xử lý kéo dài, S3 là session timeout. ResponsePending `0x78` dùng khi backend cần thêm thời gian.
+> - **TesterPresent (`0x3E`)** – giữ session active, tránh ECU tự rơi về default session.
+> - **Single-frame / multi-frame** – ảnh hưởng buffer sizing, paging strategy và timing của DCM. Transport layer (CanTp / ISO-TP) xử lý segmentation; DCM xử lý payload đã tái lắp ghép.
 
 ## 5. Functional Description của DCM
 
 Phần này mô tả chi tiết DCM hoạt động như thế nào từ lúc nhận một request tới khi trả response.
+
+![DCM overview](/assets/images/dcm/image.png)
 
 ### 5.1 Khởi tạo DCM và đăng ký protocol
 

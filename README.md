@@ -17,10 +17,15 @@ Unified_Diagnostic_Services/
 ├── assets/
 │   ├── css/style.css
 │   └── js/main.js
-├── index.md              ← Home page
+├── index.md                    ← Home page
 ├── modules/
-│   ├── 01-dem.md         ← DEM module
-│   └── 02-dcm.md         ← DCM module
+│   ├── 00-uds-overview.md      ← UDS Protocol Overview
+│   ├── 01-dem.md                ← DEM Core Concepts (Part 1)
+│   ├── 02-dem-functional.md     ← DEM Functional (Part 2)
+│   ├── 03-dcm.md                ← DCM module
+│   ├── 04-com.md                ← COM module
+│   ├── 05-pdur.md               ← PduR module
+│   └── 06-cantp.md              ← CanTp module
 └── README.md
 ```
 
