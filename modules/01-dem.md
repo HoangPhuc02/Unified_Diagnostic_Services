@@ -1,7 +1,6 @@
 ---
 layout: default
 title: DEM - Diagnostic Event Manager
-nav_order: 2
 nav_exclude: true
 module: true
 tags: [autosar, dem, diagnostics, event-manager]

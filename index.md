@@ -10,7 +10,7 @@ description: Tổng hợp tài liệu kỹ thuật về AUTOSAR Diagnostic Stack
 
 Tổng hợp tài liệu kỹ thuật về **AUTOSAR Diagnostic Stack**. Chọn module bên dưới để xem chi tiết, hoặc lọc theo tag.
 
-{% assign all_module_pages = site.pages | where: "module", true | sort: "nav_order" %}
+{% assign all_module_pages = site.pages | where: "module", true | sort: "path" %}
 {% assign all_tags = "" | split: "" %}
 {% for p in all_module_pages %}
   {% for t in p.tags %}

@@ -73,21 +73,42 @@
       if (shell) shell.classList.add("has-toc");
     }
 
-    // Toggle
+    var backdrop = document.getElementById("toc-backdrop");
+    var closeBtn = document.getElementById("toc-close");
+
+    function openToc() {
+      panel.classList.remove("is-hidden");
+      if (isMobile) {
+        panel.classList.add("is-open");
+        if (backdrop) backdrop.classList.add("is-visible");
+      }
+      if (shell && !isMobile) shell.classList.add("has-toc");
+    }
+
+    function closeToc() {
+      panel.classList.add("is-hidden");
+      panel.classList.remove("is-open");
+      if (backdrop) backdrop.classList.remove("is-visible");
+      if (shell) shell.classList.remove("has-toc");
+    }
+
+    // Toggle button in header
     if (toggleBtn) {
       toggleBtn.addEventListener("click", function () {
-        var hidden = panel.classList.contains("is-hidden");
-        if (hidden) {
-          panel.classList.remove("is-hidden");
-          if (isMobile) panel.classList.add("is-open");
-          if (shell && !isMobile) shell.classList.add("has-toc");
-        } else {
-          panel.classList.add("is-hidden");
-          if (isMobile) panel.classList.remove("is-open");
-          if (shell) shell.classList.remove("has-toc");
-        }
+        if (panel.classList.contains("is-hidden")) { openToc(); } else { closeToc(); }
       });
     }
+
+    // Close button inside panel (mobile)
+    if (closeBtn) { closeBtn.addEventListener("click", closeToc); }
+
+    // Backdrop click
+    if (backdrop) { backdrop.addEventListener("click", closeToc); }
+
+    // Close on Escape key
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !panel.classList.contains("is-hidden")) { closeToc(); }
+    });
 
     // Highlight active heading on scroll
     var links = panel.querySelectorAll("a");

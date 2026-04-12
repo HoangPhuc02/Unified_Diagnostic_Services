@@ -38,9 +38,14 @@
     </main>
 
     <aside class="toc-panel is-hidden" id="toc-panel">
-      <p class="toc-panel__title">Mục lục</p>
+      <div class="toc-panel__header">
+        <p class="toc-panel__title" style="margin:0">Mục lục</p>
+        <button class="toc-close-btn" id="toc-close" title="Đóng">&times;</button>
+      </div>
+      <p class="toc-panel__title" id="toc-title-desktop">Mục lục</p>
       <div class="toc-panel__list"></div>
     </aside>
+    <div class="toc-backdrop" id="toc-backdrop"></div>
 
   </div>
 </body>

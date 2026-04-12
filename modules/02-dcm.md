@@ -1,7 +1,6 @@
 ---
 layout: default
 title: DCM - Diagnostic Communication Manager
-nav_order: 3
 nav_exclude: true
 module: true
 tags: [autosar, dcm, diagnostics, uds, communication]

@@ -148,6 +148,10 @@ a:hover { text-decoration: underline; }
   color: var(--muted);
   margin: 0 0 10px;
 }
+/* On mobile, the header row shows the title, hide the standalone one */
+@media (max-width: 840px) {
+  #toc-title-desktop { display: none; }
+}
 .toc-panel ul {
   list-style: none;
   padding: 0;
@@ -298,13 +302,47 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .doc-card__desc  { color: var(--muted); font-size: 0.9rem; margin: 0; }
 .doc-card__tags  { margin-top: 8px; }
 
+/* ===== TOC close button (mobile) ===== */
+.toc-panel__header {
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.toc-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.toc-close-btn:hover { background: var(--accent-soft); }
+
+/* ===== Backdrop overlay (mobile) ===== */
+.toc-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+.toc-backdrop.is-visible { display: block; }
+
 /* ===== Responsive ===== */
 @media (max-width: 840px) {
   .site-shell.has-toc { grid-template-columns: 1fr; }
   .toc-panel {
     position: fixed;
     top: 0; right: 0;
-    width: 280px;
+    width: 80vw;
+    max-width: 300px;
     height: 100vh;
     max-height: 100vh;
     border-radius: 0;
@@ -315,4 +353,5 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   }
   .toc-panel.is-open { transform: translateX(0); }
   .toc-panel.is-hidden { display: block; transform: translateX(100%); }
+  .toc-panel__header { display: flex; }
 }
