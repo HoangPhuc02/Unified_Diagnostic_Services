@@ -1,399 +1,47 @@
 <!DOCTYPE html>
 <html lang="{{ page.lang | default: site.lang | default: 'vi' }}">
 <head>
- <meta charset="utf-8">
- <meta name="viewport" content="width=device-width, initial-scale=1">
- <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title | default: "Unified Diagnostic Services" }}</title>
- <meta name="description" content="{{ page.description | default: site.description | default: site.title | escape }}">
- <style>
- :root {
-	 color-scheme: light;
-	 --bg: #f7f8fb;
-	 --surface: #ffffff;
-	 --surface-alt: #eef2f8;
-	 --text: #172033;
-	 --muted: #5a657a;
-	 --line: #d8dfeb;
-	 --accent: #0a6cf1;
-	 --accent-soft: #e8f0ff;
-	 --code-bg: #111827;
-	 --code-text: #f3f4f6;
-	 --shadow: 0 18px 44px rgba(23, 32, 51, 0.08);
- }
-
- * {
-	 box-sizing: border-box;
- }
-
- html {
-	 scroll-behavior: smooth;
- }
-
- body {
-	 margin: 0;
-	 font-family: "Segoe UI", "Helvetica Neue", sans-serif;
-	 background: linear-gradient(180deg, #f4f7fb 0%, #f9fbfd 100%);
-	 color: var(--text);
-	 line-height: 1.7;
- }
-
- a {
-	 color: var(--accent);
-	 text-decoration: none;
- }
-
- a:hover {
-	 text-decoration: underline;
- }
-
- .site-shell {
-	 width: min(1200px, calc(100% - 32px));
-	 margin: 0 auto;
-	 padding: 24px 0 48px;
- }
-
- .site-header {
-	 background: rgba(255, 255, 255, 0.88);
-	 backdrop-filter: blur(10px);
-	 border: 1px solid var(--line);
-	 border-radius: 20px;
-	 box-shadow: var(--shadow);
-	 padding: 20px 24px;
-	 margin-bottom: 24px;
- }
-
- .site-header__top {
-	 display: flex;
-	 flex-wrap: wrap;
-	 gap: 16px;
-	 align-items: center;
-	 justify-content: space-between;
- }
-
- .site-title {
-	 font-size: 1.25rem;
-	 font-weight: 700;
-	 letter-spacing: 0.01em;
-	 color: var(--text);
- }
-
- .site-tagline {
-	 margin: 8px 0 0;
-	 color: var(--muted);
-	 font-size: 0.95rem;
- }
-
- .site-nav {
-	 display: flex;
-	 flex-wrap: wrap;
-	 gap: 10px;
- }
-
- .site-nav a {
-	 display: inline-flex;
-	 align-items: center;
-	 padding: 8px 12px;
-	 border-radius: 999px;
-	 border: 1px solid var(--line);
-	 background: var(--surface);
-	 color: var(--text);
-	 font-size: 0.95rem;
-	 text-decoration: none;
- }
-
- .site-nav a.is-active {
-	 background: var(--accent-soft);
-	 border-color: #bfd2ff;
-	 color: #0647a8;
-	 font-weight: 600;
- }
-
- .page-card {
-	 background: var(--surface);
-	 border: 1px solid var(--line);
-	 border-radius: 24px;
-	 box-shadow: var(--shadow);
-	 padding: 28px;
-	 overflow: hidden;
- }
-
- .page-card > :first-child {
-	 margin-top: 0;
- }
-
- .page-card > :last-child {
-	 margin-bottom: 0;
- }
-
- h1, h2, h3, h4, h5, h6 {
-	 color: #101a2d;
-	 line-height: 1.3;
-	 margin-top: 1.6em;
-	 margin-bottom: 0.65em;
- }
-
- h1 {
-	 font-size: clamp(2rem, 3vw, 2.8rem);
-	 margin-top: 0;
- }
-
- h2 {
-	 font-size: clamp(1.45rem, 2vw, 1.9rem);
-	 padding-top: 0.4rem;
-	 border-top: 1px solid var(--line);
- }
-
- p, ul, ol, table, blockquote, pre {
-	 margin-top: 0;
-	 margin-bottom: 1rem;
- }
-
- code {
-	 font-family: "Cascadia Code", Consolas, monospace;
-	 font-size: 0.92em;
- }
-
- p code, li code, td code, th code {
-	 background: #eef3fb;
-	 border: 1px solid #d9e2f2;
-	 border-radius: 6px;
-	 padding: 0.12rem 0.35rem;
- }
-
- pre {
-	 background: var(--code-bg);
-	 color: var(--code-text);
-	 border-radius: 16px;
-	 padding: 16px;
-	 overflow-x: auto;
- }
-
- pre code {
-	 background: transparent;
-	 border: 0;
-	 padding: 0;
-	 color: inherit;
- }
-
- table {
-	 width: 100%;
-	 border-collapse: collapse;
-	 display: block;
-	 overflow-x: auto;
- }
-
- th, td {
-	 border: 1px solid var(--line);
-	 padding: 10px 12px;
-	 text-align: left;
-	 vertical-align: top;
- }
-
- th {
-	 background: var(--surface-alt);
- }
-
- blockquote {
-	 margin-left: 0;
-	 padding: 14px 18px;
-	 border-left: 4px solid #a7c3ff;
-	 background: #f5f8ff;
-	 color: #31415f;
-	 border-radius: 10px;
- }
-
- hr {
-	 border: 0;
-	 border-top: 1px solid var(--line);
-	 margin: 2rem 0;
- }
-
- .mermaid {
-	 margin: 1.5rem 0;
-	 padding: 14px;
-	 border: 1px solid var(--line);
-	 border-radius: 18px;
-	 background: linear-gradient(180deg, #fbfcff 0%, #f2f6fd 100%);
-	 overflow-x: auto;
- }
-
- .doc-grid {
-	 display: grid;
-	 grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-	 gap: 16px;
-	 margin: 1.5rem 0;
- }
-
- .doc-card {
-	 display: block;
-	 padding: 18px;
-	 border-radius: 18px;
-	 border: 1px solid var(--line);
-	 background: linear-gradient(180deg, #ffffff 0%, #f5f8fd 100%);
-	 color: var(--text);
-	 text-decoration: none;
- }
-
- .doc-card:hover {
-	 text-decoration: none;
-	 border-color: #bcd0f5;
-	 box-shadow: 0 12px 24px rgba(10, 108, 241, 0.08);
- }
-
- .doc-card__title {
-	 font-size: 1.05rem;
-	 font-weight: 700;
-	 margin-bottom: 8px;
- }
-
- .doc-card__meta,
- .doc-card__desc {
-	 color: var(--muted);
-	 font-size: 0.94rem;
- }
-
- /* Tag system */
- .tag-filter {
-	 display: flex;
-	 flex-wrap: wrap;
-	 gap: 8px;
-	 margin: 0 0 1.5rem;
- }
-
- .tag-btn {
-	 padding: 5px 14px;
-	 border-radius: 999px;
-	 border: 1px solid var(--line);
-	 background: var(--surface);
-	 color: var(--muted);
-	 font-size: 0.88rem;
-	 font-family: inherit;
-	 cursor: pointer;
-	 transition: background 0.15s, color 0.15s, border-color 0.15s;
- }
-
- .tag-btn:hover,
- .tag-btn.is-active {
-	 background: var(--accent-soft);
-	 border-color: #bfd2ff;
-	 color: #0647a8;
-	 font-weight: 600;
- }
-
- .tag-badge {
-	 display: inline-block;
-	 padding: 2px 10px;
-	 border-radius: 999px;
-	 background: var(--accent-soft);
-	 color: #0647a8;
-	 font-size: 0.8rem;
-	 font-weight: 500;
-	 margin: 4px 4px 0 0;
- }
-
- .doc-card__tags {
-	 margin-top: 8px;
- }
-
- .page-tags {
-	 display: flex;
-	 flex-wrap: wrap;
-	 gap: 6px;
-	 margin-bottom: 1.25rem;
-	 padding-bottom: 1rem;
-	 border-bottom: 1px solid var(--line);
- }
-
- @media (max-width: 720px) {
-	 .site-shell {
-		 width: min(100% - 20px, 1200px);
-		 padding-top: 12px;
-	 }
-
-	 .site-header,
-	 .page-card {
-		 padding: 18px;
-		 border-radius: 18px;
-	 }
- }
- </style>
- <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
- <script>
- document.addEventListener("DOMContentLoaded", function () {
-	 if (typeof mermaid === "undefined") {
-		 return;
-	 }
-
-	 mermaid.initialize({
-		 startOnLoad: false,
-		 securityLevel: "loose",
-		 theme: "default"
-	 });
-
-	 const selectors = [
-		 "div.language-mermaid pre code",
-		 "pre > code.language-mermaid",
-		 "code.language-mermaid"
-	 ];
-
-	 document.querySelectorAll(selectors.join(", ")).forEach(function (codeBlock) {
-		 const renderedBlock = codeBlock.closest(".mermaid");
-		 if (renderedBlock) {
-			 return;
-		 }
-
-		 const wrapper =
-			 codeBlock.closest("div.language-mermaid.highlighter-rouge") ||
-			 codeBlock.closest("div.highlighter-rouge.language-mermaid") ||
-			 codeBlock.closest("pre") ||
-			 codeBlock.parentElement;
-
-		 if (!wrapper) {
-			 return;
-		 }
-
-		 const diagram = document.createElement("div");
-		 diagram.className = "mermaid";
-		 diagram.textContent = codeBlock.textContent.trim();
-		 wrapper.replaceWith(diagram);
-	 });
-
-	 try {
-		 mermaid.run();
-	 } catch (error) {
-		 console.error("Failed to render Mermaid diagrams.", error);
-	 }
- });
- </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title | default: "Unified Diagnostic Services" }}</title>
+  <meta name="description" content="{{ page.description | default: site.description | default: site.title | escape }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
 
 <body>
- <div class="site-shell">
-	 <header class="site-header">
-		 <div class="site-header__top">
-			 <div>
-				 <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title | default: "Unified Diagnostic Services" }}</a>
-				 <p class="site-tagline">{{ site.description | default: "AUTOSAR diagnostic documents rendered with GitHub Pages and Mermaid support." }}</p>
-			 </div>
-			 <nav class="site-nav">
-				 {% assign nav_pages = site.pages | sort: "nav_order" %}
-				 {% for node in nav_pages %}
-					 {% if node.title and node.nav_exclude != true %}
-						 <a class="{% if node.url == page.url %}is-active{% endif %}" href="{{ node.url | relative_url }}">{{ node.nav_title | default: node.title }}</a>
-					 {% endif %}
-				 {% endfor %}
-			 </nav>
-		 </div>
-	 </header>
+  <div class="site-shell">
 
-	 <main class="page-card">
-		 {% if page.tags %}
-		 <div class="page-tags">
-			 {% for t in page.tags %}<span class="tag-badge">{{ t }}</span>{% endfor %}
-		 </div>
-		 {% endif %}
-		 {{ content }}
-	 </main>
- </div>
+    <header class="site-header">
+      <a class="home-btn" href="{{ '/' | relative_url }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/></svg>
+        Home
+      </a>
+      <div class="header-actions">
+        <button class="icon-btn" id="toc-toggle" title="Mục lục">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" title="Đổi giao diện sáng/tối">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="page-card">
+      {% if page.tags %}
+      <div class="page-tags">
+        {% for t in page.tags %}<span class="tag-badge">{{ t }}</span>{% endfor %}
+      </div>
+      {% endif %}
+      {{ content }}
+    </main>
+
+    <aside class="toc-panel is-hidden" id="toc-panel">
+      <p class="toc-panel__title">Mục lục</p>
+      <div class="toc-panel__list"></div>
+    </aside>
+
+  </div>
 </body>
 </html>

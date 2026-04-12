@@ -1,3 +1,14 @@
+---
+layout: default
+title: DEM - Diagnostic Event Manager
+nav_order: 2
+nav_exclude: true
+module: true
+tags: [autosar, dem, diagnostics, event-manager]
+description: Tài liệu kỹ thuật về DEM – quản lý vòng đời lỗi, DTC, freeze frame và indicator trong AUTOSAR Classic.
+permalink: /dem/
+---
+
 # DEM - Diagnostic Event Manager
 
 > Tài liệu này là phần diễn giải kỹ thuật ở mức rất chi tiết dựa trên các khái niệm và cách tổ chức của AUTOSAR Classic Platform. Bản cập nhật này bổ sung thêm nhiều sơ đồ Mermaid tự vẽ, tổng hợp từ cách giải thích phổ biến trên các nguồn công khai về DEM, DCM và UDS. Nội dung được viết lại theo hướng giải thích, không phải bản sao chuẩn tắc của tài liệu AUTOSAR.

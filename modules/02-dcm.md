@@ -1,3 +1,14 @@
+---
+layout: default
+title: DCM - Diagnostic Communication Manager
+nav_order: 3
+nav_exclude: true
+module: true
+tags: [autosar, dcm, diagnostics, uds, communication]
+description: Tài liệu kỹ thuật về DCM – điều phối giao tiếp chẩn đoán UDS/KWP/OBD giữa tester và ECU.
+permalink: /dcm/
+---
+
 # DCM - Diagnostic Communication Manager
 
 > Tài liệu này là phần diễn giải kỹ thuật rất chi tiết về **DCM (Diagnostic Communication Manager)** trong AUTOSAR Classic Platform. Nội dung tổng hợp từ cách tổ chức chuẩn AUTOSAR, các nguồn public về UDS/DCM và được viết lại theo hướng giải thích thực dụng. Bản này dùng **Mermaid tự vẽ** để minh họa thay cho hình ảnh lấy từ web nhằm giữ tài liệu đồng nhất, dễ chỉnh sửa và không phụ thuộc vào ảnh ngoài.
