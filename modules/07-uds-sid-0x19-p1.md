@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "UDS - Service ID 0x19 ReadDTCInformation"
+title: "UDS - Service ID 0x19 ReadDTCInformation (Part 1)"
 nav_exclude: true
 module: true
 tags: [autosar, uds, diagnostics, iso-14229, protocol, dtc, rdtci]
