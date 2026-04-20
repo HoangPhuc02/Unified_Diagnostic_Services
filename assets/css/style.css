@@ -858,20 +858,150 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   .toc-panel.is-hidden { display: block; transform: translateX(100%); }
   .toc-panel__header { display: flex; }
   
-  /* Hide sidebar on mobile */
+  /* Hide desktop sidebar on mobile */
   .sidebar-nav { display: none; }
+  
+  /* Show mobile bottom nav */
+  .mobile-nav { display: flex; }
   
   /* Adjust page nav */
   .page-nav { flex-direction: column; }
   .page-nav__link { max-width: 100%; }
   .page-nav__link--next { align-items: flex-start; }
   
-  /* Adjust scroll button position */
-  .scroll-top-btn { bottom: 16px; right: 16px; width: 44px; height: 44px; }
+  /* Adjust scroll button position - above mobile nav */
+  .scroll-top-btn { bottom: 80px; right: 16px; width: 44px; height: 44px; }
   
-  /* Quick access */
-  .quick-access { grid-template-columns: 1fr; }
+  /* Quick access - 2 columns on mobile */
+  .quick-access { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .quick-access__item { padding: 12px; flex-direction: column; text-align: center; gap: 8px; }
+  .quick-access__icon { width: 32px; height: 32px; }
+  .quick-access__text { font-size: 0.85rem; }
   
   /* Stats */
   .stats-bar { gap: 1rem; flex-wrap: wrap; }
+  
+  /* Hero section mobile */
+  .hero-section { padding: 1.5rem 0; }
+  .hero-section__desc { font-size: 1rem; }
+  
+  /* Section header mobile */
+  .section-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .section-header__title { font-size: 1rem; }
+  
+  /* Search box mobile */
+  .search-box { max-width: 100%; }
+  .search-box__input { font-size: 16px; } /* Prevent zoom on iOS */
+  
+  /* Doc grid mobile */
+  .doc-grid { grid-template-columns: 1fr; gap: 12px; }
+  
+  /* Add padding at bottom for mobile nav */
+  .page-card { margin-bottom: 70px; }
+}
+
+/* ===== Mobile Bottom Navigation ===== */
+.mobile-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  z-index: 95;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 8px;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.08);
+}
+
+.mobile-nav__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  min-width: 60px;
+}
+
+.mobile-nav__btn:active,
+.mobile-nav__btn.is-active {
+  color: var(--accent);
+}
+
+.mobile-nav__btn svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.mobile-nav__label {
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ===== SVG Icon Fixes ===== */
+svg {
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Ensure all SVG icons have proper dimensions */
+.section-header__icon,
+.quick-access__icon svg,
+.search-box__icon,
+.no-results__icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.section-header__icon {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.quick-access__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.quick-access__icon svg {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+}
+
+.search-box__icon {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+}
+
+/* Fix icon button SVGs */
+.icon-btn svg,
+.home-btn svg {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  min-height: 18px;
+  flex-shrink: 0;
 }

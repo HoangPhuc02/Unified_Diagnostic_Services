@@ -139,6 +139,41 @@
     </button>
   </nav>
   
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-nav" id="mobile-nav">
+    <button class="mobile-nav__btn" id="mobile-home-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12l9-9 9 9"/>
+        <path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/>
+      </svg>
+      <span class="mobile-nav__label">Trang chủ</span>
+    </button>
+    <button class="mobile-nav__btn" id="mobile-toc-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12h18M3 6h18M3 18h18"/>
+      </svg>
+      <span class="mobile-nav__label">Mục lục</span>
+    </button>
+    <button class="mobile-nav__btn" id="mobile-prev-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      <span class="mobile-nav__label">Trước</span>
+    </button>
+    <button class="mobile-nav__btn" id="mobile-next-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+      <span class="mobile-nav__label">Sau</span>
+    </button>
+    <button class="mobile-nav__btn" id="mobile-theme-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+      </svg>
+      <span class="mobile-nav__label">Giao diện</span>
+    </button>
+  </nav>
+  
   <!-- Keyboard Shortcuts Modal -->
   <div class="shortcuts-modal" id="shortcuts-modal">
     <div class="shortcuts-modal__content">
@@ -181,12 +216,14 @@
     </div>
   </div>
 
-  <!-- Shortcuts button handler -->
+  <!-- Navigation handlers -->
   <script>
+    // Shortcuts button
     document.getElementById('shortcuts-btn')?.addEventListener('click', function() {
       document.getElementById('shortcuts-modal')?.classList.add('is-visible');
     });
-    // Sidebar buttons
+    
+    // Desktop Sidebar buttons
     document.getElementById('sidebar-toc-btn')?.addEventListener('click', function() {
       document.getElementById('toc-toggle')?.click();
     });
@@ -195,6 +232,29 @@
     });
     document.getElementById('sidebar-shortcuts-btn')?.addEventListener('click', function() {
       document.getElementById('shortcuts-modal')?.classList.add('is-visible');
+    });
+    
+    // Mobile Navigation buttons
+    document.getElementById('mobile-home-btn')?.addEventListener('click', function() {
+      window.location.href = '{{ "/" | relative_url }}';
+    });
+    document.getElementById('mobile-toc-btn')?.addEventListener('click', function() {
+      document.getElementById('toc-toggle')?.click();
+    });
+    document.getElementById('mobile-theme-btn')?.addEventListener('click', function() {
+      document.getElementById('theme-toggle')?.click();
+    });
+    document.getElementById('mobile-prev-btn')?.addEventListener('click', function() {
+      var prevLink = document.querySelector('.page-nav__link--prev:not(.page-nav__link--placeholder)');
+      if (prevLink) {
+        prevLink.click();
+      }
+    });
+    document.getElementById('mobile-next-btn')?.addEventListener('click', function() {
+      var nextLink = document.querySelector('.page-nav__link--next:not(.page-nav__link--placeholder)');
+      if (nextLink) {
+        nextLink.click();
+      }
     });
   </script>
 </body>
