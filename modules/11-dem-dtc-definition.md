@@ -748,7 +748,12 @@ Dem_ReturnType ret = Dem_SetEventAvailable(
 
 ## 7.4.9 Status Bit of DTC
 
-DTC status byte là **8-bit chuẩn hóa theo ISO-14229** mô tả đầy đủ trạng thái hiện tại và lịch sử của một DTC. Đây là trường thông tin quan trọng nhất khi tester đọc DTC.
+**DTC Status Byte** 
+(Byte trạng thái mã lỗi) là một trường dữ liệu gồm 1 byte (8 bit) được sử dụng để mô tả trạng thái hiện tại của một mã lỗi chẩn đoán (DTC - Diagnostic Trouble Code) cụ thể bên trong xe. Mỗi bit trong byte này mang một ý nghĩa riêng biệt để giải thích mức độ, thời điểm và tình trạng của lỗi đó. Thiết bị chẩn đoán có thể đọc byte trạng thái này để biết chính xác lỗi đang diễn ra như thế nào.
+
+**Tại sao lại cần DTC Status Byte?**
+Trong mỗi ECU có các chương trình kiểm tra chẩn đoán luôn chạy và trả về kết quả đạt (pass) hoặc lỗi (fail). Tuy nhiên, nếu bất kỳ lỗi tạm thời nào cũng được lưu lại (ví dụ như vô tình làm ngắn mạch ắc quy trong chốc lát khi kiểm tra mui xe), thì hệ thống sẽ hoạt động thiếu chính xác. Thay vào đó, các ECU sử dụng thuật toán thông minh kết hợp với **DTC Status Byte** để ghi nhận lại quá trình "trưởng thành" của lỗi thông qua việc phân tích các bit. 
+
 
 **Cấu trúc status byte**:
 
@@ -779,6 +784,32 @@ Bit 7    Bit 6    Bit 5    Bit 4    Bit 3    Bit 2    Bit 1    Bit 0
 | 6 | testNotCompletedThisOperationCycle | TNCTOC | Monitor chưa hoàn thành test trong cycle này |
 | 7 | warningIndicatorRequested | WIR | DEM đang yêu cầu bật warning indicator (MIL/đèn) |
 
+Dưới đây là chi tiết về 8 bit (từ Bit 0 đến Bit 7) của DTC Status Byte:
+
+*   **Bit 0 - Test Failed (Mask 0x01):** Cho biết kết quả của bài kiểm tra gần nhất. 
+    *   Logic '1': Bài kiểm tra gần nhất thất bại, nghĩa là lỗi đã hoàn toàn chín muồi (matured) tại thời điểm yêu cầu. 
+    *   Logic '0': Bài kiểm tra gần nhất cho kết quả đạt (pass).
+*   **Bit 1 - Test Failed This Operation Cycle (Mask 0x02):** Cho biết liệu bài kiểm tra chẩn đoán có báo cáo kết quả thất bại tại bất kỳ thời điểm nào trong chu kỳ hoạt động (operation cycle) hiện tại hay không. 
+    *   Logic '1': Lỗi đã được phát hiện trong chu kỳ hoạt động hiện tại.
+    *   Logic '0': Không phát hiện lỗi nào trong chu kỳ hiện tại, bit này sẽ được đặt lại về 0 khi bắt đầu chu kỳ mới hoặc sau khi xóa lỗi.
+*   **Bit 2 - Pending DTC (Mask 0x04 - Lỗi đang chờ xử lý):** 
+    *   Logic '1': Bài kiểm tra đã thất bại vào bất kỳ thời điểm nào trong chu kỳ hoạt động hiện tại hoặc chu kỳ hoàn thành gần nhất. Bit này không bị xóa vào đầu mỗi chu kỳ hoạt động như bit 1, mà chỉ được xóa sau khi một chu kỳ hoạt động trôi qua mà bài kiểm tra hoàn toàn đạt (không thất bại lần nào).
+*   **Bit 3 - Confirmed DTC (Mask 0x08 - Lỗi đã xác nhận):** 
+    *   Logic '1': Một sự cố đã được phát hiện đủ số lần để hệ thống quyết định lưu DTC này vào bộ nhớ dài hạn của xe. Bit này sẽ về 0 sau khi có lệnh xóa lỗi hoặc sau khi thỏa mãn ngưỡng thời gian làm mờ lỗi (aging threshold, ví dụ: 40 lần làm ấm động cơ mà không gặp lại lỗi).
+*   **Bit 4 - Test Not Completed Since Last Clear (Mask 0x10):** Cho biết bài kiểm tra có hoàn thành kể từ lần xóa mã lỗi gần nhất hay không.
+    *   Logic '1': Bài kiểm tra DTC chưa chạy đến khi hoàn thành kể từ lần xóa lỗi cuối cùng.
+    *   Logic '0': Bài kiểm tra đã được thực hiện (cho ra kết quả pass hoặc fail) ít nhất một lần kể từ lần xóa lỗi cuối.
+*   **Bit 5 - Test Failed Since Last Clear (Mask 0x20):** 
+    *   Logic '1': Bài kiểm tra DTC đã thất bại (lỗi) ít nhất một lần kể từ lần cuối cùng thông tin chẩn đoán được xóa. Khi đã lên mức '1', bit này sẽ được chốt lại cho đến khi có lệnh xóa lỗi.
+*   **Bit 6 - Test Not Completed This Operation Cycle (Mask 0x40):** 
+    *   Logic '1': Bài kiểm tra DTC chưa chạy xong trong chu kỳ hoạt động hiện tại.
+    *   Logic '0': Nếu bài kiểm tra chạy và cho ra kết quả pass hoặc fail, bit này sẽ được đặt thành '0' cho đến khi bắt đầu chu kỳ hoạt động mới.
+*   **Bit 7 - Warning Indicator Requested (Mask 0x80):** Báo cáo trạng thái yêu cầu kích hoạt các đèn cảnh báo (ví dụ như đèn báo kiểm tra động cơ, thông báo văn bản) liên quan đến DTC cụ thể.
+    *   Logic '1': Server (ECU) đang yêu cầu bật đèn cảnh báo cho DTC này. Nếu đèn cảnh báo được bật, thông thường bit Confirmed DTC (Bit 3) cũng sẽ được đặt thành '1'.
+    *   Logic '0': Không yêu cầu kích hoạt cảnh báo, hoặc không có cảnh báo nào tồn tại cho DTC này.
+
+Việc nắm vững ý nghĩa của **DTC Status Byte** giúp kỹ sư chẩn đoán không chỉ biết được chiếc xe đang bị lỗi gì, mà còn hiểu sâu hơn về tình trạng hiện tại của lỗi đó (mới xuất hiện, lỗi cũ chưa xóa, hay lỗi ngắt quãng) để đưa ra các biện pháp sửa chữa phù hợp.
+
 **Ví dụ đọc status byte trong thực tế**:
 
 ```
@@ -792,6 +823,7 @@ Phân tích DTC1 status byte = 0x2F = 0b00101111:
   Bit 1 (TFTOC)  = 1 → đã fail trong cycle này
   Bit 2 (PDTC)   = 1 → pending
   Bit 3 (CDTC)   = 1 → confirmed
+  Bit 4 (TNCSLC) = 0 → chưa fail kể từ lần clear cuối (hoặc mới clear gần đây)
   Bit 4 (TFSLC)  = 0 → chưa fail kể từ lần clear cuối (hoặc mới clear gần đây)
   Bit 5 (TNCTOC) = 1 → monitor chưa hoàn tất cycle này
   Bit 6          = 0
@@ -803,30 +835,7 @@ Phân tích DTC2 status byte = 0x09 = 0b00001001:
   Tất cả bit còn lại = 0
 ```
 
-**Vòng đời status byte điển hình**:
 
-```mermaid
-stateDiagram-v2
-    [*] --> Init: ECU power on / after clear
-    note right of Init: Status = 0x50\nTNCTOC=1, TNCSLC=1
-
-    Init --> PrefailDebounce: Monitor sends PREFAILED
-    note right of PrefailDebounce: Status = 0x50\nDebounce running
-
-    PrefailDebounce --> FailedPending: Debounce threshold reached
-    note right of FailedPending: Status = 0x57\nTF=1, TFTOC=1, PDTC=1, TFSLC=1
-
-    FailedPending --> Confirmed: Confirmation criteria met
-    note right of Confirmed: Status = 0x2F\nCDTC=1 added
-
-    Confirmed --> PassedHistoric: Monitor sends PASSED
-    note right of PassedHistoric: Status = 0x2C\nTF cleared, CDTC remains
-
-    PassedHistoric --> Aged: Aging counter reaches threshold
-    note right of Aged: DTC removed from memory
-
-    PassedHistoric --> [*]: Tester sends Clear DTC
-```
 
 **Code minh họa đọc status bit cụ thể**:
 
@@ -842,9 +851,9 @@ ret = Dem_GetDTCStatusAvailabilityMask(&statusByte);
 #define DEM_STATUS_BIT_TFTOC   0x02U  /* testFailedThisOperationCycle     */
 #define DEM_STATUS_BIT_PDTC    0x04U  /* pendingDTC                       */
 #define DEM_STATUS_BIT_CDTC    0x08U  /* confirmedDTC                     */
-#define DEM_STATUS_BIT_TFSLC   0x10U  /* testFailedSinceLastClear         */
-#define DEM_STATUS_BIT_TNCTOC  0x20U  /* testNotCompletedThisOpCycle      */
-#define DEM_STATUS_BIT_TNCSLC  0x40U  /* testNotCompletedSinceLastClear   */
+#define DEM_STATUS_BIT_TNCSLC  0x10U  /* testNotCompletedSinceLastClear   */
+#define DEM_STATUS_BIT_TFSLC   0x20U  /* testFailedSinceLastClear         */
+#define DEM_STATUS_BIT_TNCTOC  0x40U  /* testNotCompletedThisOpCycle      */
 #define DEM_STATUS_BIT_WIR     0x80U  /* warningIndicatorRequested        */
 
 if (statusByte & DEM_STATUS_BIT_CDTC) {

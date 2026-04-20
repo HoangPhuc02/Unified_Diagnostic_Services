@@ -403,3 +403,145 @@
     });
   });
 })();
+
+/* ===== Mobile FAB Menu ===== */
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var fab = document.getElementById("mobile-fab");
+    var fabToggle = document.getElementById("mobile-fab-toggle");
+    var fabMenu = document.getElementById("mobile-fab-menu");
+    var iconMenu = document.getElementById("mobile-fab-icon-menu");
+    var iconClose = document.getElementById("mobile-fab-icon-close");
+    
+    if (!fabToggle || !fabMenu) return;
+    
+    var isOpen = false;
+    
+    function toggleMenu() {
+      isOpen = !isOpen;
+      fabMenu.classList.toggle("is-open", isOpen);
+      if (iconMenu) iconMenu.style.display = isOpen ? "none" : "block";
+      if (iconClose) iconClose.style.display = isOpen ? "block" : "none";
+    }
+    
+    function closeMenu() {
+      isOpen = false;
+      fabMenu.classList.remove("is-open");
+      if (iconMenu) iconMenu.style.display = "block";
+      if (iconClose) iconClose.style.display = "none";
+    }
+    
+    fabToggle.addEventListener("click", function(e) {
+      e.stopPropagation();
+      toggleMenu();
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener("click", function(e) {
+      if (!fab.contains(e.target)) {
+        closeMenu();
+      }
+    });
+    
+    // Home button
+    var homeBtn = document.getElementById("mobile-home-btn");
+    if (homeBtn) {
+      homeBtn.addEventListener("click", function() {
+        closeMenu();
+        window.location.href = document.querySelector(".home-btn")?.href || "/";
+      });
+    }
+    
+    // TOC button
+    var tocBtn = document.getElementById("mobile-toc-btn");
+    if (tocBtn) {
+      tocBtn.addEventListener("click", function() {
+        closeMenu();
+        document.getElementById("toc-toggle")?.click();
+      });
+    }
+    
+    // Theme button
+    var themeBtn = document.getElementById("mobile-theme-btn");
+    if (themeBtn) {
+      themeBtn.addEventListener("click", function() {
+        closeMenu();
+        document.getElementById("theme-toggle")?.click();
+      });
+    }
+    
+    // Previous page button
+    var prevBtn = document.getElementById("mobile-prev-btn");
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function() {
+        closeMenu();
+        var prevLink = document.querySelector(".page-nav__link--prev:not(.page-nav__link--placeholder)");
+        if (prevLink) {
+          prevLink.click();
+        }
+      });
+    }
+    
+    // Next page button
+    var nextBtn = document.getElementById("mobile-next-btn");
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function() {
+        closeMenu();
+        var nextLink = document.querySelector(".page-nav__link--next:not(.page-nav__link--placeholder)");
+        if (nextLink) {
+          nextLink.click();
+        }
+      });
+    }
+  });
+})();
+
+/* ===== Mobile Scroll Buttons ===== */
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var scrollTopBtn = document.getElementById("mobile-scroll-top");
+    var scrollBottomBtn = document.getElementById("mobile-scroll-bottom");
+    
+    if (!scrollTopBtn || !scrollBottomBtn) return;
+    
+    var threshold = 200;
+    
+    function checkScroll() {
+      var scrollY = window.scrollY;
+      var docHeight = document.documentElement.scrollHeight;
+      var windowHeight = window.innerHeight;
+      var atBottom = scrollY + windowHeight >= docHeight - 100;
+      
+      // Show scroll-to-top when scrolled down
+      if (scrollY > threshold) {
+        scrollTopBtn.classList.add("is-visible");
+      } else {
+        scrollTopBtn.classList.remove("is-visible");
+      }
+      
+      // Show scroll-to-bottom when not at bottom
+      if (!atBottom && scrollY < docHeight - windowHeight - threshold) {
+        scrollBottomBtn.classList.add("is-visible");
+      } else {
+        scrollBottomBtn.classList.remove("is-visible");
+      }
+    }
+    
+    window.addEventListener("scroll", checkScroll, { passive: true });
+    window.addEventListener("resize", checkScroll, { passive: true });
+    checkScroll();
+    
+    // Scroll to top
+    scrollTopBtn.addEventListener("click", function() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+    
+    // Scroll to bottom
+    scrollBottomBtn.addEventListener("click", function() {
+      window.scrollTo({ 
+        top: document.documentElement.scrollHeight, 
+        behavior: "smooth" 
+      });
+    });
+  });
+})();
