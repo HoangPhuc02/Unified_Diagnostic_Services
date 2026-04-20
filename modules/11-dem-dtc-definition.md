@@ -754,14 +754,14 @@ DTC status byte là **8-bit chuẩn hóa theo ISO-14229** mô tả đầy đủ 
 
 ```
 Bit 7    Bit 6    Bit 5    Bit 4    Bit 3    Bit 2    Bit 1    Bit 0
- WIR      TNCTOC   TFTOC    TFSLC    CDTC     PDTC     TF      TF'
+ WIR      TNCTOC   TFSLC   TNCSLC    CDTC     PDTC     TFTOC    TF
   │         │        │        │        │        │        │       │
-  │         │        │        │        │        │        │       └─ testFailed (hiện tại)
-  │         │        │        │        │        │        └───────── testFailed (redundant/mir)
+  │         │        │        │        │        │        │       └─ testFailed 
+  │         │        │        │        │        │        └───────── testFailedThisOperationCycle 
   │         │        │        │        │        └────────────────── pendingDTC
   │         │        │        │        └─────────────────────────── confirmedDTC
-  │         │        │        └──────────────────────────────────── testFailedSinceLastClear
-  │         │        └───────────────────────────────────────────── testFailedThisOperationCycle
+  │         │        │        └──────────────────────────────────── testNotCompletedSinceLastClear
+  │         │        └───────────────────────────────────────────── testFailedSinceLastClear
   │         └────────────────────────────────────────────────────── testNotCompletedThisOperationCycle
   └──────────────────────────────────────────────────────────────── warningIndicatorRequested
 ```
@@ -774,9 +774,9 @@ Bit 7    Bit 6    Bit 5    Bit 4    Bit 3    Bit 2    Bit 1    Bit 0
 | 1 | testFailedThisOperationCycle | TFTOC | Lỗi đã xảy ra ít nhất một lần trong cycle hiện tại |
 | 2 | pendingDTC | PDTC | DTC đang chờ xác nhận (thấy fail nhưng chưa confirmed) |
 | 3 | confirmedDTC | CDTC | DTC đã được xác nhận theo tiêu chí confirmation |
-| 4 | testFailedSinceLastClear | TFSLC | Đã fail ít nhất một lần kể từ lần clear cuối |
-| 5 | testNotCompletedThisOperationCycle | TNCTOC | Monitor chưa hoàn thành test trong cycle này |
-| 6 | testNotCompletedSinceLastClear | TNCSLC | Monitor chưa hoàn thành kể từ lần clear cuối |
+| 4 | testNotCompletedSinceLastClear | TNCSLC | Monitor chưa hoàn thành kể từ lần clear cuối |
+| 5 | testFailedSinceLastClear | TFSLC | Đã fail ít nhất một lần kể từ lần clear cuối |
+| 6 | testNotCompletedThisOperationCycle | TNCTOC | Monitor chưa hoàn thành test trong cycle này |
 | 7 | warningIndicatorRequested | WIR | DEM đang yêu cầu bật warning indicator (MIL/đèn) |
 
 **Ví dụ đọc status byte trong thực tế**:

@@ -177,11 +177,229 @@
       filterBar.querySelectorAll(".tag-btn").forEach(function (b) { b.classList.remove("is-active"); });
       btn.classList.add("is-active");
       var tag = btn.dataset.tag;
-      grid.querySelectorAll(".doc-card").forEach(function (card) {
-        if (tag === "*") { card.style.display = ""; return; }
-        var tags = card.dataset.tags ? card.dataset.tags.split(",") : [];
-        card.style.display = tags.indexOf(tag) !== -1 ? "" : "none";
+      filterCards(tag, "");
+    });
+    
+    // Search functionality
+    var searchInput = document.getElementById("search-input");
+    var clearBtn = document.getElementById("search-clear");
+    if (searchInput) {
+      searchInput.addEventListener("input", function() {
+        var query = this.value.toLowerCase().trim();
+        if (clearBtn) {
+          clearBtn.classList.toggle("is-visible", query.length > 0);
+        }
+        var activeTag = filterBar.querySelector(".tag-btn.is-active");
+        var tag = activeTag ? activeTag.dataset.tag : "*";
+        filterCards(tag, query);
       });
+    }
+    if (clearBtn) {
+      clearBtn.addEventListener("click", function() {
+        searchInput.value = "";
+        clearBtn.classList.remove("is-visible");
+        var activeTag = filterBar.querySelector(".tag-btn.is-active");
+        var tag = activeTag ? activeTag.dataset.tag : "*";
+        filterCards(tag, "");
+        searchInput.focus();
+      });
+    }
+    
+    function filterCards(tag, query) {
+      var cards = grid.querySelectorAll(".doc-card");
+      var visibleCount = 0;
+      cards.forEach(function(card) {
+        var tags = card.dataset.tags ? card.dataset.tags.split(",") : [];
+        var title = (card.querySelector(".doc-card__title")?.textContent || "").toLowerCase();
+        var desc = (card.querySelector(".doc-card__desc")?.textContent || "").toLowerCase();
+        
+        var matchesTag = tag === "*" || tags.indexOf(tag) !== -1;
+        var matchesQuery = !query || title.includes(query) || desc.includes(query);
+        
+        if (matchesTag && matchesQuery) {
+          card.style.display = "";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+      
+      // Show/hide no results message
+      var noResults = document.getElementById("no-results");
+      if (noResults) {
+        noResults.style.display = visibleCount === 0 ? "block" : "none";
+      }
+      
+      // Update count
+      var countEl = document.getElementById("modules-count");
+      if (countEl) {
+        countEl.textContent = visibleCount + " modules";
+      }
+    }
+  });
+})();
+
+/* ===== Scroll-to-Top Button ===== */
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.getElementById("scroll-top-btn");
+    if (!btn) return;
+    
+    var threshold = 300;
+    
+    function checkScroll() {
+      if (window.scrollY > threshold) {
+        btn.classList.add("is-visible");
+      } else {
+        btn.classList.remove("is-visible");
+      }
+    }
+    
+    window.addEventListener("scroll", checkScroll, { passive: true });
+    checkScroll();
+    
+    btn.addEventListener("click", function() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  });
+})();
+
+/* ===== Reading Progress Bar ===== */
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var progressBar = document.getElementById("reading-progress");
+    var pageCard = document.querySelector(".page-card");
+    if (!progressBar || !pageCard) return;
+    
+    function updateProgress() {
+      var cardRect = pageCard.getBoundingClientRect();
+      var cardTop = pageCard.offsetTop;
+      var cardHeight = pageCard.offsetHeight;
+      var windowHeight = window.innerHeight;
+      var scrollY = window.scrollY;
+      
+      var start = cardTop;
+      var end = cardTop + cardHeight - windowHeight;
+      var progress = 0;
+      
+      if (scrollY <= start) {
+        progress = 0;
+      } else if (scrollY >= end) {
+        progress = 100;
+      } else {
+        progress = ((scrollY - start) / (end - start)) * 100;
+      }
+      
+      progressBar.style.width = Math.min(100, Math.max(0, progress)) + "%";
+    }
+    
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress, { passive: true });
+    updateProgress();
+  });
+})();
+
+/* ===== Keyboard Shortcuts ===== */
+(function () {
+  document.addEventListener("DOMContentLoaded", function () {
+    var modal = document.getElementById("shortcuts-modal");
+    var closeBtn = document.getElementById("shortcuts-close");
+    
+    function showModal() {
+      if (modal) modal.classList.add("is-visible");
+    }
+    
+    function hideModal() {
+      if (modal) modal.classList.remove("is-visible");
+    }
+    
+    if (closeBtn) {
+      closeBtn.addEventListener("click", hideModal);
+    }
+    
+    if (modal) {
+      modal.addEventListener("click", function(e) {
+        if (e.target === modal) hideModal();
+      });
+    }
+    
+    document.addEventListener("keydown", function(e) {
+      // Don't trigger if typing in input
+      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+      
+      // ? - Show shortcuts modal
+      if (e.key === "?" && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        if (modal && modal.classList.contains("is-visible")) {
+          hideModal();
+        } else {
+          showModal();
+        }
+      }
+      
+      // Escape - Close modal
+      if (e.key === "Escape") {
+        hideModal();
+      }
+      
+      // g + h - Go home
+      if (e.key === "h" && !e.ctrlKey && !e.metaKey) {
+        var homeBtn = document.querySelector(".home-btn");
+        if (homeBtn) {
+          e.preventDefault();
+          homeBtn.click();
+        }
+      }
+      
+      // t - Toggle TOC
+      if (e.key === "t" && !e.ctrlKey && !e.metaKey) {
+        var tocToggle = document.getElementById("toc-toggle");
+        if (tocToggle) {
+          e.preventDefault();
+          tocToggle.click();
+        }
+      }
+      
+      // d - Toggle dark mode
+      if (e.key === "d" && !e.ctrlKey && !e.metaKey) {
+        var themeToggle = document.getElementById("theme-toggle");
+        if (themeToggle) {
+          e.preventDefault();
+          themeToggle.click();
+        }
+      }
+      
+      // / or s - Focus search
+      if ((e.key === "/" || e.key === "s") && !e.ctrlKey && !e.metaKey) {
+        var searchInput = document.getElementById("search-input");
+        if (searchInput) {
+          e.preventDefault();
+          searchInput.focus();
+        }
+      }
+      
+      // j - Next page
+      if (e.key === "j" && !e.ctrlKey && !e.metaKey) {
+        var nextLink = document.querySelector(".page-nav__link--next:not(.page-nav__link--placeholder)");
+        if (nextLink) {
+          e.preventDefault();
+          nextLink.click();
+        }
+      }
+      
+      // k - Previous page
+      if (e.key === "k" && !e.ctrlKey && !e.metaKey) {
+        var prevLink = document.querySelector(".page-nav__link--prev:not(.page-nav__link--placeholder)");
+        if (prevLink) {
+          e.preventDefault();
+          prevLink.click();
+        }
+      }
+      
+      // g + t - Scroll to top
+      if (e.key === "g" && !e.ctrlKey && !e.metaKey) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     });
   });
 })();

@@ -1,27 +1,4 @@
-﻿---
-layout: default
-title: "DEM - Part 1 Overview"
-nav_exclude: true
-module: true
-tags: [autosar, dem, diagnostics, event-manager]
-description: "DEM phần 1 Tài liệu kỹ thuật về DEM – quản lý vòng đời lỗi, DTC, freeze frame và indicator trong AUTOSAR Classic."
-permalink: /dem-overview/
----
-
-# DEM - Diagnostic Event Manager
-
-> Tài liệu này là phần diễn giải kỹ thuật ở mức rất chi tiết dựa trên các khái niệm và cách tổ chức của AUTOSAR Classic Platform. Bản cập nhật này bổ sung thêm nhiều sơ đồ Mermaid tự vẽ, tổng hợp từ cách giải thích phổ biến trên các nguồn công khai về DEM, DCM và UDS. Nội dung được viết lại theo hướng giải thích, không phải bản sao chuẩn tắc của tài liệu AUTOSAR.
-
-## 1. Tổng quan module
-
-**DEM (Diagnostic Event Manager)** là module trung tâm của lớp chẩn đoán trong AUTOSAR Classic, chịu trách nhiệm quản lý toàn bộ vòng đời của các lỗi chẩn đoán từ thời điểm lỗi được phát hiện bởi monitor cho đến khi lỗi được chuẩn hóa thành DTC, được lưu vào bộ nhớ sự kiện, được xuất ra ngoài qua DCM và cuối cùng được xóa hoặc aging khỏi hệ thống.
-
-Nếu xem ngăn xếp chẩn đoán AUTOSAR như một chuỗi xử lý dữ liệu, thì:
-
-1. Các **monitor** trong SWC hoặc BSW phát hiện bất thường.
-2. Các monitor này báo cáo kết quả đánh giá sang DEM dưới dạng **event status**.
-3. DEM biến thông tin mức monitor thành **trạng thái chẩn đoán có ý nghĩa hệ thống**.
-4. DEM quyết định có cần cập nhật **DTC status bits**, lưu **freeze frame**, **extended data**, điều khiển **indicator**, hoặc ghi xuống **non-volatile memory** hay không.
+﻿l
 5. Các module khác như **DCM**, **FiM**, **BswM**, **NvM** sử dụng hoặc phối hợp với thông tin do DEM quản lý.
 
 Nói ngắn gọn: **DEM không trực tiếp phát hiện lỗi vật lý**, mà DEM là bộ máy hợp nhất, chuẩn hóa, lưu trữ và cung cấp trạng thái chẩn đoán cho toàn ECU.

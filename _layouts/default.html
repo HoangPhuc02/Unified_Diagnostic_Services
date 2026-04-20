@@ -11,6 +11,9 @@
 </head>
 
 <body>
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="reading-progress"></div>
+  
   <div class="site-shell">
 
     <header class="site-header">
@@ -19,22 +22,84 @@
         Home
       </a>
       <div class="header-actions">
-        <button class="icon-btn" id="toc-toggle" title="Mục lục">
+        <button class="icon-btn" id="shortcuts-btn" title="Phím tắt (?)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h8M6 16h.01M10 16h.01M14 16h.01M18 16h.01"/></svg>
+        </button>
+        <button class="icon-btn" id="toc-toggle" title="Mục lục (T)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
         </button>
-        <button class="icon-btn" id="theme-toggle" title="Đổi giao diện sáng/tối">
+        <button class="icon-btn" id="theme-toggle" title="Đổi giao diện sáng/tối (D)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
         </button>
       </div>
     </header>
 
     <main class="page-card">
+      {% if page.module %}
+      <!-- Breadcrumb for module pages -->
+      <nav class="breadcrumb">
+        <a href="{{ '/' | relative_url }}">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/></svg>
+        </a>
+        <span class="breadcrumb__sep">›</span>
+        <a href="{{ '/' | relative_url }}">Modules</a>
+        <span class="breadcrumb__sep">›</span>
+        <span class="breadcrumb__current">{{ page.title }}</span>
+      </nav>
+      {% endif %}
+      
       {% if page.tags %}
       <div class="page-tags">
         {% for t in page.tags %}<span class="tag-badge">{{ t }}</span>{% endfor %}
       </div>
       {% endif %}
+      
       {{ content }}
+      
+      {% if page.module %}
+      <!-- Previous/Next Navigation -->
+      {% assign all_modules = site.pages | where: "module", true | sort: "path" %}
+      {% assign current_index = nil %}
+      {% for p in all_modules %}
+        {% if p.url == page.url %}
+          {% assign current_index = forloop.index0 %}
+        {% endif %}
+      {% endfor %}
+      
+      {% if current_index %}
+        {% assign prev_index = current_index | minus: 1 %}
+        {% assign next_index = current_index | plus: 1 %}
+        {% assign total_modules = all_modules | size %}
+        
+        <nav class="page-nav">
+          {% if prev_index >= 0 %}
+            {% assign prev_page = all_modules[prev_index] %}
+            <a class="page-nav__link page-nav__link--prev" href="{{ prev_page.url | relative_url }}">
+              <span class="page-nav__label">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Trang trước
+              </span>
+              <span class="page-nav__title">{{ prev_page.title }}</span>
+            </a>
+          {% else %}
+            <div class="page-nav__link page-nav__link--placeholder"></div>
+          {% endif %}
+          
+          {% if next_index < total_modules %}
+            {% assign next_page = all_modules[next_index] %}
+            <a class="page-nav__link page-nav__link--next" href="{{ next_page.url | relative_url }}">
+              <span class="page-nav__label">
+                Trang sau
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+              <span class="page-nav__title">{{ next_page.title }}</span>
+            </a>
+          {% else %}
+            <div class="page-nav__link page-nav__link--placeholder"></div>
+          {% endif %}
+        </nav>
+      {% endif %}
+      {% endif %}
     </main>
 
     <aside class="toc-panel is-hidden" id="toc-panel">
@@ -48,5 +113,89 @@
     <div class="toc-backdrop" id="toc-backdrop"></div>
 
   </div>
+  
+  <!-- Scroll to Top Button -->
+  <button class="scroll-top-btn" id="scroll-top-btn" title="Lên đầu trang (G)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+  
+  <!-- Sidebar Navigation (Desktop only) -->
+  <nav class="sidebar-nav" id="sidebar-nav">
+    <button class="sidebar-nav__btn" onclick="window.location.href='{{ '/' | relative_url }}'" title="Trang chủ">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3v-6h6v6h3a1 1 0 001-1V10"/></svg>
+      <span class="sidebar-nav__tooltip">Trang chủ (H)</span>
+    </button>
+    <button class="sidebar-nav__btn" id="sidebar-toc-btn" title="Mục lục">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+      <span class="sidebar-nav__tooltip">Mục lục (T)</span>
+    </button>
+    <button class="sidebar-nav__btn" id="sidebar-theme-btn" title="Sáng/Tối">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+      <span class="sidebar-nav__tooltip">Giao diện (D)</span>
+    </button>
+    <button class="sidebar-nav__btn" id="sidebar-shortcuts-btn" title="Phím tắt">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h8M6 16h.01M10 16h.01M14 16h.01M18 16h.01"/></svg>
+      <span class="sidebar-nav__tooltip">Phím tắt (?)</span>
+    </button>
+  </nav>
+  
+  <!-- Keyboard Shortcuts Modal -->
+  <div class="shortcuts-modal" id="shortcuts-modal">
+    <div class="shortcuts-modal__content">
+      <div class="shortcuts-modal__title">
+        Phím tắt
+        <button class="shortcuts-modal__close" id="shortcuts-close">&times;</button>
+      </div>
+      <div class="shortcut-item">
+        <span class="shortcut-item__desc">Về trang chủ</span>
+        <span class="shortcut-item__keys"><kbd class="kbd">H</kbd></span>
+      </div>
+      <div class="shortcut-item">
+        <span class="shortcut-item__desc">Bật/tắt mục lục</span>
+        <span class="shortcut-item__keys"><kbd class="kbd">T</kbd></span>
+      </div>
+      <div class="shortcut-item">
+        <span class="shortcut-item__desc">Chế độ sáng/tối</span>
+        <span class="shortcut-item__keys"><kbd class="kbd">D</kbd></span>
+      </div>
+      <div class="shortcut-item">
+        <span class="shortcut-item__desc">Tìm kiếm</span>
+        <span class="shortcut-item__keys"><kbd class="kbd">/</kbd> hoặc <kbd class="kbd">S</kbd></span>
+      </div>
+      <div class="shortcut-item">
+        <span class="shortcut-item__desc">Trang tiếp theo</span>
+        <span class="shortcut-item__keys"><kbd class="kbd">J</kbd></span>
+      </div>
+      <div class="shortcut-item">
+        <span class="shortcut-item__desc">Trang trước</span>
+        <span class="shortcut-item__keys"><kbd class="kbd">K</kbd></span>
+      </div>
+      <div class="shortcut-item">
+        <span class="shortcut-item__desc">Lên đầu trang</span>
+        <span class="shortcut-item__keys"><kbd class="kbd">G</kbd></span>
+      </div>
+      <div class="shortcut-item">
+        <span class="shortcut-item__desc">Hiện phím tắt</span>
+        <span class="shortcut-item__keys"><kbd class="kbd">?</kbd></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shortcuts button handler -->
+  <script>
+    document.getElementById('shortcuts-btn')?.addEventListener('click', function() {
+      document.getElementById('shortcuts-modal')?.classList.add('is-visible');
+    });
+    // Sidebar buttons
+    document.getElementById('sidebar-toc-btn')?.addEventListener('click', function() {
+      document.getElementById('toc-toggle')?.click();
+    });
+    document.getElementById('sidebar-theme-btn')?.addEventListener('click', function() {
+      document.getElementById('theme-toggle')?.click();
+    });
+    document.getElementById('sidebar-shortcuts-btn')?.addEventListener('click', function() {
+      document.getElementById('shortcuts-modal')?.classList.add('is-visible');
+    });
+  </script>
 </body>
 </html>
