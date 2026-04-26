@@ -1,6 +1,6 @@
 ﻿---
 layout: default
-category: uds
+category: communication
 title: "CanTp - CAN Transport Protocol"
 nav_exclude: true
 module: true

@@ -11,16 +11,17 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   <p class="hero-section__desc">Technical documentation for <strong>AUTOSAR UDS Diagnostic Stack</strong> and <strong>ESP32-S3</strong> embedded development.</p>
 </div>
 
-{% assign all_module_pages = site.pages | where: "module", true | sort: "path" %}
-{% assign uds_pages          = all_module_pages | where: "category", "uds" %}
-{% assign esp32_pages        = all_module_pages | where: "category", "esp32s3" %}
-{% assign uds_adaptive_pages = all_module_pages | where: "category", "uds_adaptive" %}
+{% assign all_module_pages    = site.pages | where: "module", true | sort: "path" %}
+{% assign uds_pages           = all_module_pages | where: "category", "uds" %}
+{% assign esp32_pages         = all_module_pages | where: "category", "esp32s3" %}
+{% assign uds_adaptive_pages  = all_module_pages | where: "category", "uds_adaptive" %}
+{% assign communication_pages = all_module_pages | where: "category", "communication" %}
 
 <!-- Quick Stats -->
 <div class="stats-bar">
   <div class="stat-item">
     <div class="stat-item__value">{{ uds_pages | size }}</div>
-    <div class="stat-item__label">UDS Docs</div>
+    <div class="stat-item__label">UDS Classic</div>
   </div>
   <div class="stat-item">
     <div class="stat-item__value">{{ esp32_pages | size }}</div>
@@ -29,6 +30,10 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   <div class="stat-item">
     <div class="stat-item__value">{{ uds_adaptive_pages | size }}</div>
     <div class="stat-item__label">UDS Adaptive</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-item__value">{{ communication_pages | size }}</div>
+    <div class="stat-item__label">Communication</div>
   </div>
   <div class="stat-item">
     <div class="stat-item__value">ISO 14229</div>
@@ -40,7 +45,7 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
 <div class="cat-tabs" role="tablist">
   <button class="cat-tab is-active" data-cat="uds" role="tab" aria-selected="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-    UDS Diagnostics
+    UDS Classic
     <span class="cat-tab__count">{{ uds_pages | size }}</span>
   </button>
   <button class="cat-tab" data-cat="esp32s3" role="tab" aria-selected="false">
@@ -52,6 +57,11 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
     UDS Adaptive
     <span class="cat-tab__count">{{ uds_adaptive_pages | size }}</span>
+  </button>
+  <button class="cat-tab" data-cat="communication" role="tab" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.8 19.79 19.79 0 011.3 3.18 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.5a16 16 0 006.4 6.4l1.67-1.94a2 2 0 012.1-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+    Communication
+    <span class="cat-tab__count">{{ communication_pages | size }}</span>
   </button>
 </div>
 
@@ -85,11 +95,11 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
       </div>
       <span class="quick-access__text">DCM Module</span>
     </a>
-    <a class="quick-access__item" href="{{ '/cantp/' | relative_url }}">
+    <a class="quick-access__item" href="{{ '/pdur/' | relative_url }}">
       <div class="quick-access__icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
       </div>
-      <span class="quick-access__text">CAN Transport</span>
+      <span class="quick-access__text">PduR Module</span>
     </a>
   </div>
 
@@ -216,6 +226,72 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   </div>
 
 </div><!-- end #cat-uds_adaptive -->
+
+<!-- ===== Communication Section ===== -->
+<div class="cat-section is-hidden" id="cat-communication">
+
+  <div class="section-header">
+    <h3 class="section-header__title">
+      <svg class="section-header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.8 19.79 19.79 0 011.3 3.18 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.5a16 16 0 006.4 6.4l1.67-1.94a2 2 0 012.1-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Communication Stack
+      <span class="section-header__count">{{ communication_pages | size }} modules</span>
+    </h3>
+  </div>
+
+  <div class="cat-section-intro">
+    <p>Tài liệu về <strong>AUTOSAR Communication Stack</strong> – PDU Router (PduR), CAN Transport Protocol (CanTp),
+    và Diagnostics over IP (DoIP). Covers ISO 15765-2 (CanTp) và ISO 13400-2 (DoIP).</p>
+  </div>
+
+  <!-- Quick Access -->
+  <div class="section-header">
+    <h3 class="section-header__title">
+      <svg class="section-header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Quick Access
+    </h3>
+  </div>
+
+  <div class="quick-access">
+    <a class="quick-access__item" href="{{ '/pdur/' | relative_url }}">
+      <div class="quick-access__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+      </div>
+      <span class="quick-access__text">PduR Module</span>
+    </a>
+    <a class="quick-access__item" href="{{ '/cantp/' | relative_url }}">
+      <div class="quick-access__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <span class="quick-access__text">CAN Transport</span>
+    </a>
+    <a class="quick-access__item" href="{{ '/doip/' | relative_url }}">
+      <div class="quick-access__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      </div>
+      <span class="quick-access__text">DoIP Overview</span>
+    </a>
+  </div>
+
+  <div class="doc-grid">
+    {% assign counter = 0 %}
+    {% for p in communication_pages %}
+    {% assign counter = counter | plus: 1 %}
+    <a class="doc-card" href="{{ p.url | relative_url }}" data-tags="{{ p.tags | join: ',' }}">
+      <span class="doc-card__number">{{ counter }}</span>
+      <div class="doc-card__title">{{ p.title }}</div>
+      <p class="doc-card__desc">{{ p.description }}</p>
+      {% if p.tags %}
+      <div class="doc-card__tags">
+        {% for t in p.tags limit: 3 %}<span class="tag-badge">{{ t }}</span>{% endfor %}
+        {% assign tag_count = p.tags | size %}
+        {% if tag_count > 3 %}<span class="tag-badge">+{{ tag_count | minus: 3 }}</span>{% endif %}
+      </div>
+      {% endif %}
+    </a>
+    {% endfor %}
+  </div>
+
+</div><!-- end #cat-communication -->
 
 <hr>
 

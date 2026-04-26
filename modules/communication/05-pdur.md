@@ -1,6 +1,6 @@
 ﻿---
 layout: default
-category: uds
+category: communication
 title: "PduR - PDU Router"
 nav_exclude: true
 module: true
