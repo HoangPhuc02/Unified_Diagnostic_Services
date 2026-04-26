@@ -142,7 +142,9 @@ svg {
   border-radius: 14px;
   padding: 28px;
   min-width: 0;
-  overflow: hidden;
+  /* overflow: clip keeps visual clipping (rounded corners) without creating
+     a scroll container, so .cat-tabs overflow-x:auto works on iOS Safari */
+  overflow: clip;
 }
 .page-card > :first-child { margin-top: 0; }
 .page-card > :last-child { margin-bottom: 0; }
@@ -1173,6 +1175,22 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   }
   .cat-tab svg { width: 14px; height: 14px; }
   .cat-tab__count { padding: 1px 5px; min-width: 18px; font-size: 0.7rem; }
+
+  /* Right-edge fade on .cat-tabs so users see there are more tabs */
+  .cat-tabs-wrapper {
+    position: relative;
+  }
+  .cat-tabs-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    background: linear-gradient(to right, transparent, var(--surface));
+    pointer-events: none;
+    border-radius: 0 14px 0 0;
+  }
 }
 
 /* ===== Category Section Intro ===== */

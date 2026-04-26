@@ -42,6 +42,7 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
 </div>
 
 <!-- Category Tabs -->
+<div class="cat-tabs-wrapper">
 <div class="cat-tabs" role="tablist">
   <button class="cat-tab is-active" data-cat="uds" role="tab" aria-selected="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
@@ -63,7 +64,8 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
     Communication
     <span class="cat-tab__count">{{ communication_pages | size }}</span>
   </button>
-</div>
+</div><!-- end .cat-tabs -->
+</div><!-- end .cat-tabs-wrapper -->
 
 <!-- ===== UDS Section ===== -->
 <div class="cat-section" id="cat-uds">
