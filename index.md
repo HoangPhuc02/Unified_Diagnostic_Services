@@ -65,12 +65,27 @@ description: Tổng hợp tài liệu kỹ thuật về AUTOSAR Diagnostic Stack
   </a>
 </div>
 
-<!-- Search Box -->
+<!-- Category Tabs -->
+<div class="cat-tabs" id="cat-tabs">
+  <button class="cat-tab is-active" data-cat="uds">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/></svg>
+    UDS / AUTOSAR
+  </button>
+  <button class="cat-tab" data-cat="esp32s3">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+    ESP32-S3
+  </button>
+</div>
+
+<!-- UDS Section -->
+{% assign uds_pages = all_module_pages | where_exp: "p", "p.path contains 'modules/uds'" %}
+<div class="cat-section" id="cat-uds">
+
 <div class="section-header">
   <h3 class="section-header__title">
     <svg class="section-header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-    Tất cả tài liệu
-    <span class="section-header__count" id="modules-count">{{ module_count }} modules</span>
+    UDS / AUTOSAR Diagnostic Stack
+    <span class="section-header__count">{{ uds_pages | size }} modules</span>
   </h3>
 </div>
 
@@ -82,24 +97,9 @@ description: Tổng hợp tài liệu kỹ thuật về AUTOSAR Diagnostic Stack
   </button>
 </div>
 
-{% assign all_tags = "" | split: "" %}
-{% for p in all_module_pages %}
-  {% for t in p.tags %}
-    {% unless all_tags contains t %}{% assign all_tags = all_tags | push: t %}{% endunless %}
-  {% endfor %}
-{% endfor %}
-
-<!-- Tag Filter - Compact -->
-<div class="tag-filter" id="tag-filter">
-  <button class="tag-btn is-active" data-tag="*">Tất cả</button>
-  {% for tag in all_tags limit: 8 %}
-  <button class="tag-btn" data-tag="{{ tag }}">{{ tag }}</button>
-  {% endfor %}
-</div>
-
 <div class="doc-grid" id="module-grid">
   {% assign counter = 0 %}
-  {% for p in all_module_pages %}
+  {% for p in uds_pages %}
   {% assign counter = counter | plus: 1 %}
   <a class="doc-card" href="{{ p.url | relative_url }}" data-tags="{{ p.tags | join: ',' }}">
     <span class="doc-card__number">{{ counter }}</span>
@@ -115,6 +115,39 @@ description: Tổng hợp tài liệu kỹ thuật về AUTOSAR Diagnostic Stack
   </a>
   {% endfor %}
 </div>
+
+</div><!-- end cat-uds -->
+
+<!-- ESP32-S3 Section -->
+{% assign esp_pages = all_module_pages | where_exp: "p", "p.path contains 'modules/esp32s3'" %}
+<div class="cat-section is-hidden" id="cat-esp32s3">
+
+<div class="section-header">
+  <h3 class="section-header__title">
+    <svg class="section-header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
+    ESP32-S3
+    <span class="section-header__count">{{ esp_pages | size }} modules</span>
+  </h3>
+</div>
+
+<div class="doc-grid">
+  {% assign counter = 0 %}
+  {% for p in esp_pages %}
+  {% assign counter = counter | plus: 1 %}
+  <a class="doc-card" href="{{ p.url | relative_url }}" data-tags="{{ p.tags | join: ',' }}">
+    <span class="doc-card__number">{{ counter }}</span>
+    <div class="doc-card__title">{{ p.title }}</div>
+    <p class="doc-card__desc">{{ p.description }}</p>
+    {% if p.tags %}
+    <div class="doc-card__tags">
+      {% for t in p.tags limit: 3 %}<span class="tag-badge">{{ t }}</span>{% endfor %}
+    </div>
+    {% endif %}
+  </a>
+  {% endfor %}
+</div>
+
+</div><!-- end cat-esp32s3 -->
 
 <!-- No Results Message -->
 <div class="no-results" id="no-results" style="display: none;">

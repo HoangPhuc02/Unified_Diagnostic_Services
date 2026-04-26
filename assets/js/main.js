@@ -545,3 +545,23 @@
     });
   });
 })();
+
+// ===== Category Tabs =====
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
+    var tabs = document.querySelectorAll('.cat-tab');
+    if (!tabs.length) return;
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        tabs.forEach(function(t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        var cat = tab.getAttribute('data-cat');
+        document.querySelectorAll('.cat-section').forEach(function(sec) {
+          sec.classList.add('is-hidden');
+        });
+        var target = document.getElementById('cat-' + cat);
+        if (target) target.classList.remove('is-hidden');
+      });
+    });
+  });
+})();
