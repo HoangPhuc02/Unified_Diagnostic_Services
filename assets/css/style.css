@@ -1086,11 +1086,19 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 /* ===== Category Tabs ===== */
 .cat-tabs {
   display: flex;
+  flex-wrap: nowrap;
   gap: 8px;
   margin: 1.5rem 0 0;
   border-bottom: 2px solid var(--line);
   padding-bottom: 0;
+  /* Mobile horizontal scroll */
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE/Edge */
 }
+.cat-tabs::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
 .cat-tab {
   display: inline-flex;
   align-items: center;
@@ -1107,6 +1115,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   cursor: pointer;
   position: relative;
   bottom: -2px;
+  white-space: nowrap;          /* prevent tab label wrapping */
+  flex-shrink: 0;               /* keep full width even when row is tight */
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .cat-tab:hover {
@@ -1154,90 +1164,16 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   padding: 0 6px;
 }
 
-/* ===== Category Tabs ===== */
-.cat-tabs {
-  display: flex;
-  gap: 8px;
-  margin: 1.5rem 0 0;
-  border-bottom: 2px solid var(--line);
-  padding-bottom: 0;
+/* Mobile: reduce tab padding so more tabs fit before needing to scroll */
+@media (max-width: 600px) {
+  .cat-tab {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    gap: 5px;
+  }
+  .cat-tab svg { width: 14px; height: 14px; }
+  .cat-tab__count { padding: 1px 5px; min-width: 18px; font-size: 0.7rem; }
 }
-.cat-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 10px 10px 0 0;
-  border: 1px solid transparent;
-  border-bottom: none;
-  background: transparent;
-  color: var(--muted);
-  font-size: 0.95rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  position: relative;
-  bottom: -2px;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-.cat-tab:hover {
-  background: var(--surface-alt);
-  color: var(--text);
-}
-.cat-tab.is-active {
-  background: var(--surface);
-  color: var(--accent);
-  border-color: var(--line);
-  border-bottom-color: var(--surface);
-}
-.cat-tab__count {
-  display: inline-block;
-  padding: 1px 8px;
-  border-radius: 999px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-size: 0.75rem;
-  font-weight: 700;
-  min-width: 22px;
-  text-align: center;
-}
-.cat-tab:not(.is-active) .cat-tab__count {
-  background: var(--surface-alt);
-  color: var(--muted);
-}
-
-.cat-section { margin-top: 1.5rem; }
-.cat-section.is-hidden { display: none; }
-
-/* Doc card number badge */
-.doc-card__number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-size: 0.75rem;
-  font-weight: 700;
-  margin-bottom: 8px;
-  padding: 0 6px;
-}
-
-/* ===== Category Section Intro ===== */
-.cat-section-intro {
-  background: var(--surface-alt);
-  border: 1px solid var(--line);
-  border-left: 4px solid var(--accent);
-  border-radius: 8px;
-  padding: 14px 18px;
-  margin-bottom: 1.5rem;
-  font-size: 0.93rem;
-  color: var(--muted);
-}
-.cat-section-intro strong { color: var(--text); }
-.cat-section-intro a { color: var(--accent); }
 
 /* ===== Category Section Intro ===== */
 .cat-section-intro {
