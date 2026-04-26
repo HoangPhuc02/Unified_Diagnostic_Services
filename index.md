@@ -204,9 +204,11 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   </div>
 
   <div class="cat-section-intro">
-    <p>Tài liệu về <strong>UDS trên AUTOSAR Adaptive Platform</strong> – kiến trúc <code>ara::diag</code>,
-    Diagnostic Manager (DM), DoIP transport, và ví dụ C++. Chuẩn tham chiếu:
-    <a href="https://www.autosar.org/fileadmin/standards/R25-11/AP/AUTOSAR_AP_SWS_Diagnostics.pdf" target="_blank" rel="noopener">AUTOSAR_AP_SWS_Diagnostics R25-11</a>
+    <p>Tài liệu về <strong>UDS &amp; OTA trên AUTOSAR Adaptive Platform</strong> – kiến trúc <code>ara::diag</code>,
+    Diagnostic Manager (DM), DoIP transport, ví dụ C++, và <strong>UCM (Update &amp; Configuration Management)</strong>
+    cho OTA update. Chuẩn tham chiếu:
+    <a href="https://www.autosar.org/fileadmin/standards/R25-11/AP/AUTOSAR_AP_SWS_Diagnostics.pdf" target="_blank" rel="noopener">AUTOSAR_AP_SWS_Diagnostics R25-11</a>,
+    <a href="https://www.autosar.org/fileadmin/standards/R25-11/AP/AUTOSAR_AP_SWS_UpdateAndConfigurationManagement.pdf" target="_blank" rel="noopener">AUTOSAR_AP_SWS_UCM R25-11</a>
     &amp; ISO 14229-1:2020.</p>
   </div>
 
