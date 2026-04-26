@@ -1224,3 +1224,31 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   margin-bottom: 8px;
   padding: 0 6px;
 }
+
+/* ===== Category Section Intro ===== */
+.cat-section-intro {
+  background: var(--surface-alt);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 1.5rem;
+  font-size: 0.93rem;
+  color: var(--muted);
+}
+.cat-section-intro strong { color: var(--text); }
+.cat-section-intro a { color: var(--accent); }
+
+/* ===== Category Section Intro ===== */
+.cat-section-intro {
+  background: var(--surface-alt);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 1.5rem;
+  font-size: 0.93rem;
+  color: var(--muted);
+}
+.cat-section-intro strong { color: var(--text); }
+.cat-section-intro a { color: var(--accent); }

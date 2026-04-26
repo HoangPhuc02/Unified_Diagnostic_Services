@@ -12,8 +12,9 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
 </div>
 
 {% assign all_module_pages = site.pages | where: "module", true | sort: "path" %}
-{% assign uds_pages   = all_module_pages | where: "category", "uds" %}
-{% assign esp32_pages = all_module_pages | where: "category", "esp32s3" %}
+{% assign uds_pages          = all_module_pages | where: "category", "uds" %}
+{% assign esp32_pages        = all_module_pages | where: "category", "esp32s3" %}
+{% assign uds_adaptive_pages = all_module_pages | where: "category", "uds_adaptive" %}
 
 <!-- Quick Stats -->
 <div class="stats-bar">
@@ -24,6 +25,10 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   <div class="stat-item">
     <div class="stat-item__value">{{ esp32_pages | size }}</div>
     <div class="stat-item__label">ESP32-S3 Docs</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-item__value">{{ uds_adaptive_pages | size }}</div>
+    <div class="stat-item__label">UDS Adaptive</div>
   </div>
   <div class="stat-item">
     <div class="stat-item__value">ISO 14229</div>
@@ -42,6 +47,11 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-4 0v2M8 11h.01M12 11h.01M16 11h.01"/></svg>
     ESP32-S3
     <span class="cat-tab__count">{{ esp32_pages | size }}</span>
+  </button>
+  <button class="cat-tab" data-cat="uds_adaptive" role="tab" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    UDS Adaptive
+    <span class="cat-tab__count">{{ uds_adaptive_pages | size }}</span>
   </button>
 </div>
 
@@ -169,6 +179,43 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   </div>
 
 </div><!-- end #cat-esp32s3 -->
+
+<!-- ===== UDS Adaptive Section ===== -->
+<div class="cat-section is-hidden" id="cat-uds_adaptive">
+
+  <div class="section-header">
+    <h3 class="section-header__title">
+      <svg class="section-header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      UDS Adaptive (AUTOSAR AP)
+      <span class="section-header__count">{{ uds_adaptive_pages | size }} parts</span>
+    </h3>
+  </div>
+
+  <div class="cat-section-intro">
+    <p>Tài liệu về <strong>UDS trên AUTOSAR Adaptive Platform</strong> – kiến trúc <code>ara::diag</code>,
+    Diagnostic Manager (DM), DoIP transport, và ví dụ C++. Chuẩn tham chiếu:
+    <a href="https://www.autosar.org/fileadmin/standards/R25-11/AP/AUTOSAR_AP_SWS_Diagnostics.pdf" target="_blank" rel="noopener">AUTOSAR_AP_SWS_Diagnostics R25-11</a>
+    &amp; ISO 14229-1:2020.</p>
+  </div>
+
+  <div class="doc-grid">
+    {% assign counter = 0 %}
+    {% for p in uds_adaptive_pages %}
+    {% assign counter = counter | plus: 1 %}
+    <a class="doc-card" href="{{ p.url | relative_url }}" data-tags="{{ p.tags | join: ',' }}">
+      <span class="doc-card__number">{{ counter }}</span>
+      <div class="doc-card__title">{{ p.title }}</div>
+      <p class="doc-card__desc">{{ p.description }}</p>
+      {% if p.tags %}
+      <div class="doc-card__tags">
+        {% for t in p.tags limit: 3 %}<span class="tag-badge">{{ t }}</span>{% endfor %}
+      </div>
+      {% endif %}
+    </a>
+    {% endfor %}
+  </div>
+
+</div><!-- end #cat-uds_adaptive -->
 
 <hr>
 
