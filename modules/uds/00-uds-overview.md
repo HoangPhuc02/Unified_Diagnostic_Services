@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "UDS - Unified Diagnostic Services Overview"
 nav_exclude: true
 module: true
@@ -10,10 +11,7 @@ permalink: /uds-overview/
 
 # UDS - Unified Diagnostic Services Overview
 
-<div class="callout callout--note">
-<strong>📖 Về tài liệu này</strong>
-Trình bày tổng quan giao thức <strong>UDS (Unified Diagnostic Services)</strong> theo chuẩn <strong>ISO 14229</strong>. UDS là nền tảng giao thức chẩn đoán được sử dụng rộng rãi nhất trong ngành ô tô hiện đại, là cơ sở để các module AUTOSAR như DCM, DEM, CanTp phối hợp hoạt động.
-</div>
+> Tài liệu này trình bày tổng quan giao thức **UDS (Unified Diagnostic Services)** theo chuẩn **ISO 14229**. UDS là nền tảng giao thức chẩn đoán được sử dụng rộng rãi nhất trong ngành ô tô hiện đại, là cơ sở để các module AUTOSAR như DCM, DEM, CanTp phối hợp hoạt động.
 
 ## 1. Tổng quan về UDS
 
@@ -21,12 +19,12 @@ Trình bày tổng quan giao thức <strong>UDS (Unified Diagnostic Services)</s
 
 UDS thống nhất các dịch vụ chẩn đoán thay cho nhiều giao thức cũ riêng biệt, bao gồm:
 
-- Đọc và xóa mã lỗi (DTC)
-- Đọc/ghi dữ liệu cấu hình, ID, calibration
-- Điều khiển routine kiểm tra, hiệu chỉnh
-- Quản lý session và bảo mật
-- Cập nhật phần mềm (flashing/programming)
-- Điều khiển communication và DTC setting
+1. Đọc và xóa mã lỗi (DTC).
+2. Đọc/ghi dữ liệu cấu hình, ID, calibration.
+3. Điều khiển routine kiểm tra, hiệu chỉnh.
+4. Quản lý session và bảo mật.
+5. Cập nhật phần mềm (flashing/programming).
+6. Điều khiển communication và DTC setting.
 
 UDS không phụ thuộc vào một physical bus cụ thể. Nó có thể hoạt động trên CAN, CAN FD, Ethernet (DoIP), LIN, FlexRay thông qua các transport protocol tương ứng.
 
@@ -34,10 +32,10 @@ UDS không phụ thuộc vào một physical bus cụ thể. Nó có thể hoạ
 
 Trước UDS, các OEM và nhà cung cấp sử dụng các giao thức chẩn đoán riêng hoặc các tiêu chuẩn cũ hơn như KWP2000 (ISO 14230). UDS ra đời để:
 
-- **Thống nhất** giao diện chẩn đoán giữa nhiều OEM
-- **Mở rộng** khả năng dịch vụ so với KWP2000
-- **Tách biệt** application-level diagnostic khỏi transport/physical layer
-- **Hỗ trợ** các yêu cầu OBD/WWH-OBD emission-related
+1. **Thống nhất** giao diện chẩn đoán giữa nhiều OEM.
+2. **Mở rộng** khả năng dịch vụ so với KWP2000.
+3. **Tách biệt** application-level diagnostic khỏi transport/physical layer.
+4. **Hỗ trợ** các yêu cầu OBD/WWH-OBD emission-related.
 
 ### 1.2 Các tiêu chuẩn liên quan
 
@@ -91,10 +89,10 @@ UDS hoạt động theo mô hình **client-server**:
 
 Đặc điểm chính:
 
-- Tester **chủ động** gửi request
-- ECU **phản hồi** bằng positive response hoặc negative response
-- Giao tiếp là **request-driven**, không phải publisher-subscriber
-- Một tester có thể gửi request tới nhiều ECU (functional addressing) hoặc một ECU cụ thể (physical addressing)
+1. Tester **chủ động** gửi request.
+2. ECU **phản hồi** bằng positive response hoặc negative response.
+3. Giao tiếp là **request-driven**, không phải publisher-subscriber.
+4. Một tester có thể gửi request tới nhiều ECU (functional addressing) hoặc một ECU cụ thể (physical addressing).
 
 ```mermaid
 sequenceDiagram
@@ -111,10 +109,7 @@ sequenceDiagram
 
 ### 3.1 Suppression of positive response
 
-<div class="callout callout--tip">
-<strong>💡 Suppress Positive Response</strong>
-Một số request có thể yêu cầu <strong>suppress positive response</strong> bằng cách set bit đặc biệt trong sub-function byte. Khi đó ECU không gửi response nếu kết quả thành công, chỉ gửi negative response nếu thất bại. Điều này giảm tải bus trong functional addressing.
-</div>
+Một số request có thể yêu cầu **suppress positive response** bằng cách set bit đặc biệt trong sub-function byte. Khi đó ECU không gửi response nếu kết quả thành công, chỉ gửi negative response nếu thất bại. Điều này giảm tải bus trong functional addressing.
 
 ## 4. Cấu trúc Diagnostic Message
 
@@ -156,11 +151,9 @@ Ví dụ:
 
 Negative response luôn có format cố định 3 byte:
 
-| Byte | Giá trị | Mô tả |
-|---|---|---|
-| 1 | `0x7F` | Negative response service ID |
-| 2 | SID gốc | Service ID của request bị từ chối |
-| 3 | NRC | Negative Response Code – lý do từ chối |
+1. Byte 1: `0x7F` (negative response service ID).
+2. Byte 2: SID gốc của request bị từ chối.
+3. Byte 3: NRC (Negative Response Code) cho biết lý do từ chối.
 
 ### 4.4 Sơ đồ cấu trúc message
 
@@ -257,9 +250,9 @@ Request nhắm tới **một ECU cụ thể** qua địa chỉ vật lý riêng.
 
 Đặc điểm:
 
-- Luôn có response (positive hoặc negative) trừ khi suppress bit được set
-- Dùng cho hầu hết các dịch vụ: đọc/ghi DID, routine, programming, security access
-- Trong CAN: sử dụng RX CAN ID riêng cho từng ECU
+1. Luôn có response (positive hoặc negative) trừ khi suppress bit được set.
+2. Dùng cho hầu hết các dịch vụ: đọc/ghi DID, routine, programming, security access.
+3. Trong CAN: sử dụng RX CAN ID riêng cho từng ECU.
 
 ### 6.2 Functional addressing
 
@@ -267,16 +260,16 @@ Request phát **quảng bá logic** tới tất cả ECU hỗ trợ cùng dịch
 
 Đặc điểm:
 
-- Nhiều ECU có thể nhận cùng request
-- Response handling phụ thuộc vào service và suppress bit
-- Một số service chỉ hỗ trợ physical addressing
-- Functional addressing thường dùng cho: `TesterPresent`, `ClearDTC`, `ControlDTCSetting`, `CommunicationControl`
+1. Nhiều ECU có thể nhận cùng request.
+2. Response handling phụ thuộc vào service và suppress bit.
+3. Một số service chỉ hỗ trợ physical addressing.
+4. Functional addressing thường dùng cho: `TesterPresent`, `ClearDTC`, `ControlDTCSetting`, `CommunicationControl`.
 
 ### 6.3 Ảnh hưởng tới hành vi DCM
 
-- Một số service chỉ hợp lệ với physical addressing (ví dụ: `SecurityAccess`, `WriteDataByIdentifier`)
-- Trong functional addressing, positive response có thể bị suppress để tránh bus collision
-- DCM phải kiểm tra addressing mode trước khi quyết định gửi response
+1. Một số service chỉ hợp lệ với physical addressing (ví dụ: `SecurityAccess`, `WriteDataByIdentifier`).
+2. Trong functional addressing, positive response có thể bị suppress để tránh bus collision.
+3. DCM phải kiểm tra addressing mode trước khi quyết định gửi response.
 
 ```mermaid
 flowchart LR
@@ -322,14 +315,10 @@ stateDiagram-v2
 
 ### 7.3 Quy tắc session
 
-<div class="callout callout--warn">
-<strong>⚠️ Lưu ý về session</strong>
-
-- **Service permission**: mỗi service có danh sách session được phép. Ví dụ `WriteDataByIdentifier` thường chỉ được phép trong extended session
-- **Security level**: một số service còn yêu cầu security access đã mở khóa
-- **S3 timeout**: nếu tester không gửi request hoặc `TesterPresent` trong thời gian S3, ECU tự quay về default session
-- **Reset effect**: khi session thay đổi, timing parameters (P2, P2*) có thể thay đổi theo
-</div>
+1. **Service permission**: mỗi service có danh sách session được phép. Ví dụ `WriteDataByIdentifier` thường chỉ được phép trong extended session.
+2. **Security level**: một số service còn yêu cầu security access đã mở khóa.
+3. **S3 timeout**: nếu tester không gửi request hoặc `TesterPresent` trong thời gian S3, ECU tự quay về default session.
+4. **Reset effect**: khi session thay đổi, timing parameters (P2, P2*) có thể thay đổi theo.
 
 ## 8. Security Access
 
@@ -366,10 +355,10 @@ sequenceDiagram
 
 ### 8.3 Cơ chế bảo vệ
 
-- **Attempt counter**: sau N lần gửi key sai, ECU trả NRC `0x36 exceedNumberOfAttempts`
-- **Time delay**: sau khi bị khóa, tester phải chờ một khoảng thời gian trước khi thử lại (NRC `0x37 requiredTimeDelayNotExpired`)
-- **Security level**: có thể có nhiều level cho các mức truy cập khác nhau
-- **Session dependency**: security access thường chỉ được phép ở extended hoặc programming session
+1. **Attempt counter**: sau N lần gửi key sai, ECU trả NRC `0x36 exceedNumberOfAttempts`.
+2. **Time delay**: sau khi bị khóa, tester phải chờ một khoảng thời gian trước khi thử lại (NRC `0x37 requiredTimeDelayNotExpired`).
+3. **Security level**: có thể có nhiều level cho các mức truy cập khác nhau.
+4. **Session dependency**: security access thường chỉ được phép ở extended hoặc programming session.
 
 ## 9. Negative Response Code (NRC)
 
@@ -435,10 +424,7 @@ flowchart TB
 
 ### 9.3 Thứ tự kiểm tra NRC trong DCM
 
-<div class="callout callout--note">
-<strong>🔍 Ưu tiên kiểm tra NRC</strong>
-
-DCM kiểm tra theo thứ tự:
+DCM thường kiểm tra theo thứ tự ưu tiên:
 
 1. Service có được hỗ trợ không → `0x11` / `0x7F`
 2. Sub-function có hợp lệ không → `0x12` / `0x7E`
@@ -448,7 +434,6 @@ DCM kiểm tra theo thứ tự:
 6. Conditions runtime đúng không → `0x22`
 7. Parameters hợp lệ không → `0x31`
 8. Xử lý kéo dài → `0x78` ResponsePending
-</div>
 
 ## 10. Timing Parameters
 
@@ -466,11 +451,11 @@ DCM kiểm tra theo thứ tự:
 
 Khi service cần thời gian xử lý vượt quá P2Server:
 
-1. DCM gửi NRC `0x78` trước khi P2 hết hạn
-2. Tester nhận `0x78` → chuyển sang chờ với timeout P2*
-3. DCM tiếp tục xử lý backend
-4. Nếu vẫn chưa xong trước P2*, DCM gửi thêm `0x78`
-5. Khi xử lý xong, DCM gửi positive hoặc negative response cuối cùng
+1. DCM gửi negative response với NRC `0x78` trước khi P2 hết hạn.
+2. Tester nhận `0x78` → chuyển sang chờ với timeout P2*.
+3. DCM tiếp tục xử lý backend.
+4. Nếu vẫn chưa xong trước P2*, DCM gửi thêm `0x78`.
+5. Khi xử lý xong, DCM gửi positive hoặc negative response cuối cùng.
 
 ```mermaid
 sequenceDiagram
@@ -491,9 +476,9 @@ sequenceDiagram
 
 `TesterPresent` (`0x3E`) giữ session active:
 
-- Nếu tester không gửi **bất kỳ request nào** (bao gồm `TesterPresent`) trong thời gian S3, DCM tự chuyển về default session
-- `TesterPresent` thường được gửi với suppress positive response bit = 1 để không tải bus
-- Trong thực tế, tester thường gửi `0x3E 80` (sub-function `0x00` + suppress bit) theo chu kỳ
+1. Nếu tester không gửi **bất kỳ request nào** (bao gồm `TesterPresent`) trong thời gian S3, DCM tự chuyển về default session.
+2. `TesterPresent` thường được gửi với suppress positive response bit = 1 để không tải bus.
+3. Trong thực tế, tester thường gửi `0x3E 80` (sub-function `0x00` + suppress bit) theo chu kỳ.
 
 ```mermaid
 flowchart LR
@@ -676,11 +661,11 @@ sequenceDiagram
 
 UDS là **ngôn ngữ chung** giữa diagnostic tester và ECU. Hiểu rõ UDS giúp hiểu được:
 
-- Tại sao **DCM** cần kiểm tra session, security, addressing trước khi xử lý service
-- Tại sao **DEM** phải cung cấp DTC data theo format chuẩn hóa
-- Tại sao **CanTp** cần xử lý phân mảnh/gom frame cho request/response lớn
-- Tại sao **PduR** cần routing giữa nhiều module
-- Tại sao **COM** cần truyền signal ứng dụng song song với diagnostic traffic
+1. Tại sao DCM cần kiểm tra session, security, addressing trước khi xử lý service.
+2. Tại sao DEM phải cung cấp DTC data theo format chuẩn hóa.
+3. Tại sao CanTp cần xử lý phân mảnh/gom frame cho request/response lớn.
+4. Tại sao PduR cần routing giữa nhiều module.
+5. Tại sao COM cần truyền signal ứng dụng song song với diagnostic traffic.
 
 Nắm vững UDS cũng giúp đọc hiểu log chẩn đoán, viết test script, review cấu hình DCM/DEM và debug các vấn đề giao tiếp tester-ECU hiệu quả hơn.
 

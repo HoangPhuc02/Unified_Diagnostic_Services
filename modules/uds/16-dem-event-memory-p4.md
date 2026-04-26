@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "DEM - Event Memory Part 4: Fault Confirmation, Combination and Conditions"
 nav_exclude: true
 module: true

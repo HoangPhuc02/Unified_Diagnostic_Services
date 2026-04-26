@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "UDS - Service ID 0x86 ResponseOnEvent (Part 2)"
 nav_exclude: true
 module: true

@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "UDS - Service ID 0x19 ReadDTCInformation (Part 2)"
 nav_exclude: true
 module: true

@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "DEM - Event Memory Part 5: Event Related Data"
 nav_exclude: true
 module: true

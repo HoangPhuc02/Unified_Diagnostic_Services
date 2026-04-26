@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "COM - AUTOSAR Communication Module"
 nav_exclude: true
 module: true

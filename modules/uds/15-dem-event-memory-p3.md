@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "DEM - Event Memory Part 3: Debouncing of Diagnostic Events"
 nav_exclude: true
 module: true

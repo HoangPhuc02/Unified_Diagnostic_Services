@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "Diagnostic Event Description"
 nav_exclude: true
 module: true

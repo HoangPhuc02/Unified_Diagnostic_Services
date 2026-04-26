@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "DEM - Event Memory Part 2: Event Memory Management"
 nav_exclude: true
 module: true

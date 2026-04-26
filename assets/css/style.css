@@ -1087,47 +1087,140 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .cat-tabs {
   display: flex;
   gap: 8px;
-  margin: 1.5rem 0 1rem;
+  margin: 1.5rem 0 0;
   border-bottom: 2px solid var(--line);
   padding-bottom: 0;
 }
 .cat-tab {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 18px;
-  border: none;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
-  background: none;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px 10px 0 0;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background: transparent;
   color: var(--muted);
   font-size: 0.95rem;
   font-weight: 600;
+  font-family: inherit;
   cursor: pointer;
-  border-radius: 8px 8px 0 0;
-  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  position: relative;
+  bottom: -2px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
-.cat-tab svg { stroke: currentColor; }
-.cat-tab:hover { color: var(--accent); background: var(--accent-soft); }
+.cat-tab:hover {
+  background: var(--surface-alt);
+  color: var(--text);
+}
 .cat-tab.is-active {
+  background: var(--surface);
   color: var(--accent);
-  border-bottom-color: var(--accent);
-  background: var(--accent-soft);
+  border-color: var(--line);
+  border-bottom-color: var(--surface);
 }
+.cat-tab__count {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 22px;
+  text-align: center;
+}
+.cat-tab:not(.is-active) .cat-tab__count {
+  background: var(--surface-alt);
+  color: var(--muted);
+}
+
+.cat-section { margin-top: 1.5rem; }
 .cat-section.is-hidden { display: none; }
 
-/* ===== Callout boxes (for content pages) ===== */
-.callout {
-  border-left: 4px solid var(--accent);
+/* Doc card number badge */
+.doc-card__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 6px;
   background: var(--accent-soft);
-  border-radius: 0 8px 8px 0;
-  padding: 0.75rem 1rem;
-  margin: 1.25rem 0;
-  font-size: 0.95rem;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  padding: 0 6px;
 }
-.callout--note { border-color: var(--accent); background: var(--accent-soft); }
-.callout--tip  { border-color: #22c55e; background: #f0fdf4; }
-.callout--warn { border-color: #f59e0b; background: #fffbeb; }
-[data-theme="dark"] .callout--tip  { background: #14271e; }
-[data-theme="dark"] .callout--warn { background: #271e08; }
-.callout strong { display: block; margin-bottom: 0.25rem; }
+
+/* ===== Category Tabs ===== */
+.cat-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 1.5rem 0 0;
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 0;
+}
+.cat-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px 10px 0 0;
+  border: 1px solid transparent;
+  border-bottom: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  bottom: -2px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.cat-tab:hover {
+  background: var(--surface-alt);
+  color: var(--text);
+}
+.cat-tab.is-active {
+  background: var(--surface);
+  color: var(--accent);
+  border-color: var(--line);
+  border-bottom-color: var(--surface);
+}
+.cat-tab__count {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  min-width: 22px;
+  text-align: center;
+}
+.cat-tab:not(.is-active) .cat-tab__count {
+  background: var(--surface-alt);
+  color: var(--muted);
+}
+
+.cat-section { margin-top: 1.5rem; }
+.cat-section.is-hidden { display: none; }
+
+/* Doc card number badge */
+.doc-card__number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  padding: 0 6px;
+}

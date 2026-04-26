@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "DCM - Diagnostic Communication Manager"
 nav_exclude: true
 module: true

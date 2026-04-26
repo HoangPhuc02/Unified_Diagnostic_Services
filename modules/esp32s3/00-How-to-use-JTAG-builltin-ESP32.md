@@ -1,54 +1,99 @@
----
+﻿---
 layout: default
-title: "ESP32-S3 – How to use Built-in JTAG Debugger"
+title: "ESP32-S3 - How to Use Built-in JTAG Debugger"
 nav_exclude: true
 module: true
 category: esp32s3
-tags: [esp32s3, jtag, platformio, debug]
-description: "Hướng dẫn cấu hình JTAG built-in của ESP32-S3 với PlatformIO và Zadig trên Windows."
+tags: [esp32, jtag, platformio, debugging, embedded]
+description: "Step-by-step guide to set up the ESP32-S3 built-in JTAG debugger with PlatformIO on Windows using Zadig driver installation."
 permalink: /esp32s3-jtag/
 ---
 
-# ESP32-S3 – How to use Built-in JTAG Debugger
+# ESP32-S3 -- How to Use the Built-in JTAG Debugger
 
-> Hướng dẫn cấu hình JTAG debugger tích hợp sẵn trên ESP32-S3 với PlatformIO và Zadig (Windows).
+> Connect the **native USB** port of the ESP32-S3 to your PC. All flashing and debugging traffic goes through this port.
 
-Connect the cable to the native USB of the ESP32-S3, it is through this port that the ESP recording and debugging will be done.
+---
 
+## Prerequisites
 
-### **Step 1:**
-Download and open ZADIG, Options, List All Devices, Select “USB Jtag/serial debug unit (interface 0)”, change the current driver to “USB Serial (CDC)” and install by clicking the “Update Driver” button on the Zadig.****
+| Tool | Purpose |
+|------|---------|
+| [Zadig](https://zadig.akeo.ie/) | USB driver installer |
+| [PlatformIO](https://platformio.org/) | IDE / build system |
+| Windows Device Manager | Verify COM port assignments |
 
-![Select_device](/assets/images/esp32s3/Select_JTAG_device.png)
+---
 
+## Step 1 -- Install CDC Driver for Interface 0
 
-![Change_interface0_to_usbCDC](/assets/images/esp32s3/Change_interface0_to_usbCDC.png)
+Open **Zadig** and follow:
 
-### **Step 2:**
-Still in ZADIG, select “USB Jtag/serial debug unit (interface 2)”, change the current driver to “WinUSB” and install by clicking the “Update Driver” button in Zadig.
+1. Go to **Options -> List All Devices**
+2. Select **USB JTAG/serial debug unit (Interface 0)**
+3. Change the driver to **USB Serial (CDC)**
+4. Click **Update Driver**
 
-![Change_interface2_to_WinUsb](/assets/images/esp32s3/Change_interface2_to_WinUsb.png)
+<div style="display:flex; flex-wrap:wrap; gap:12px; margin:1rem 0;">
+  <img src="{{ '/assets/images/esp32s3/Select_JTAG_device.png' | relative_url }}" alt="Select JTAG device in Zadig" style="max-width:100%; border:1px solid var(--line); border-radius:8px;">
+  <img src="{{ '/assets/images/esp32s3/Change_interface0_to_usbCDC.png' | relative_url }}" alt="Change Interface 0 to USB Serial CDC" style="max-width:100%; border:1px solid var(--line); border-radius:8px;">
+</div>
 
-### **Step 3:**
-Open the Windows device manager to find out which ports to configure, in my case COM18 is JTAG(“USB-JTAG/serial debug unit(Interface 0)”) and COM21 is the standard serial of the ESP32 board- S3(“USB-Enhanced-SERIAL CH323”)
-![alt text](/assets/images/esp32s3/COM_example.png)
+---
 
-### **Step 4:**
-In Platformio, configure the Platformio.ini file. In the attached file, there is the port COM14(or the same port that appears in the Windows device manager as “USB-JTAG/serial debug unit(Interface 0)” for the JTAG Debugger, and COM10(or the same port that in Windows device manager appears as “USB-Enhanced-SERIAL CH323”) for the serial monitor. It is through the debugger that the code is also uploaded. This way, the Platformio.ini file would be configured as follows:
+## Step 2 -- Install WinUSB Driver for Interface 2
 
-```c
+Still in **Zadig**:
+
+1. Select **USB JTAG/serial debug unit (Interface 2)**
+2. Change the driver to **WinUSB**
+3. Click **Update Driver**
+
+<img src="{{ '/assets/images/esp32s3/Change_interface2_to_WinUsb.png' | relative_url }}" alt="Change Interface 2 to WinUSB" style="max-width:100%; border:1px solid var(--line); border-radius:8px; margin:0.5rem 0;">
+
+---
+
+## Step 3 -- Find the COM Ports in Device Manager
+
+Open **Windows Device Manager** and locate the two ports:
+
+| Port | Device name | Role |
+|------|-------------|------|
+| e.g. COM18 | USB-JTAG/serial debug unit (Interface 0) | JTAG debugger / flash |
+| e.g. COM21 | USB-Enhanced-SERIAL CH343 | Serial monitor |
+
+> The exact COM numbers will differ on your machine -- use whatever Device Manager shows.
+
+<img src="{{ '/assets/images/esp32s3/COM_example.png' | relative_url }}" alt="COM port assignments in Windows Device Manager" style="max-width:100%; border:1px solid var(--line); border-radius:8px; margin:0.5rem 0;">
+
+---
+
+## Step 4 -- Configure platformio.ini
+
+Replace the COM port numbers below with the ones you found in Step 3:
+
+```ini
 [env:esp32-s3-devkitc-1]
-platform = https://github.com/platformio/platform-espressif32.git   ;Fech lastest support for ESP32
-;platform = espressif32
-board = esp32-s3-devkitc-1    ;ESP32-S3
+platform  = https://github.com/platformio/platform-espressif32.git  ; latest ESP32 support
+board     = esp32-s3-devkitc-1
 framework = arduino
-upload_speed = 2000000     ;ESP32S3 USB-Serial Converter maximum 2000000bps
-upload_port = COM14
+
+; Upload & monitor
+upload_speed = 2000000        ; max speed for ESP32-S3 USB-Serial
+upload_port  = COM18          ; JTAG interface port (Interface 0)
 monitor_speed = 115200
-monitor_port = COM10
-debug_tool = esp-builtin
-debug_init_break = break setup
-build_type = debug      ;build in debug mode instead of release mode
+monitor_port  = COM21         ; serial monitor port
+
+; Debugger
+debug_tool        = esp-builtin
+debug_init_break  = break setup
+build_type        = debug
 ```
 
-https://community.platformio.org/t/how-to-use-jtag-built-in-debugger-of-the-esp32-s3-in-platformio/36042
+> **Tip:** Flashing is done through the JTAG port (`upload_port`), not the serial port.
+
+---
+
+## References
+
+- [PlatformIO Community -- ESP32-S3 built-in JTAG](https://community.platformio.org/t/how-to-use-jtag-built-in-debugger-of-the-esp32-s3-in-platformio/36042)

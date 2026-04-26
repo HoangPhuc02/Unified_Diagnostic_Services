@@ -1,5 +1,6 @@
----
+﻿---
 layout: default
+category: uds
 title: "DEM - Event Memory Part 6: Aging, Healing và Warning Indicator"
 nav_exclude: true
 module: true
