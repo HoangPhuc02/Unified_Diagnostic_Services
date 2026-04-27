@@ -16,6 +16,7 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
 {% assign esp32_pages         = all_module_pages | where: "category", "esp32s3" %}
 {% assign uds_adaptive_pages  = all_module_pages | where: "category", "uds_adaptive" %}
 {% assign communication_pages = all_module_pages | where: "category", "communication" %}
+{% assign cpp_pages           = all_module_pages | where: "category", "adaptive_cpp" %}
 
 <!-- Quick Stats -->
 <div class="stats-bar">
@@ -34,6 +35,10 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   <div class="stat-item">
     <div class="stat-item__value">{{ communication_pages | size }}</div>
     <div class="stat-item__label">Communication</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-item__value">{{ cpp_pages | size }}</div>
+    <div class="stat-item__label">Advanced C++</div>
   </div>
   <div class="stat-item">
     <div class="stat-item__value">ISO 14229</div>
@@ -63,6 +68,11 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.36 11.8 19.79 19.79 0 011.3 3.18 2 2 0 013.28 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.09 8.5a16 16 0 006.4 6.4l1.67-1.94a2 2 0 012.1-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
     Communication
     <span class="cat-tab__count">{{ communication_pages | size }}</span>
+  </button>
+  <button class="cat-tab" data-cat="adaptive_cpp" role="tab" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    Advanced C++
+    <span class="cat-tab__count">{{ cpp_pages | size }}</span>
   </button>
 </div><!-- end .cat-tabs -->
 </div><!-- end .cat-tabs-wrapper -->
@@ -296,6 +306,45 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   </div>
 
 </div><!-- end #cat-communication -->
+
+<!-- ===== Advanced C++ Section ===== -->
+<div class="cat-section is-hidden" id="cat-adaptive_cpp">
+
+  <div class="section-header">
+    <h3 class="section-header__title">
+      <svg class="section-header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Advanced C++ (Modern C++17/20)
+      <span class="section-header__count">{{ cpp_pages | size }} parts</span>
+    </h3>
+  </div>
+
+  <div class="cat-section-intro">
+    <p>Series <strong>C++ nâng cao</strong> – Templates &amp; Concepts, RAII &amp; Smart Pointers,
+    Concurrency &amp; Coroutines, Design Patterns. Mỗi bài gồm lý thuyết, code example đầy đủ
+    (C++17/20), ứng dụng thực tế trên <strong>AUTOSAR Adaptive Platform</strong> (ara::com, DM, UCM)
+    và bài tập luyện tập.</p>
+  </div>
+
+  <div class="doc-grid">
+    {% assign counter = 0 %}
+    {% for p in cpp_pages %}
+    {% assign counter = counter | plus: 1 %}
+    <a class="doc-card" href="{{ p.url | relative_url }}" data-tags="{{ p.tags | join: ',' }}">
+      <span class="doc-card__number">{{ counter }}</span>
+      <div class="doc-card__title">{{ p.title }}</div>
+      <p class="doc-card__desc">{{ p.description }}</p>
+      {% if p.tags %}
+      <div class="doc-card__tags">
+        {% for t in p.tags limit: 3 %}<span class="tag-badge">{{ t }}</span>{% endfor %}
+        {% assign tag_count = p.tags | size %}
+        {% if tag_count > 3 %}<span class="tag-badge">+{{ tag_count | minus: 3 }}</span>{% endif %}
+      </div>
+      {% endif %}
+    </a>
+    {% endfor %}
+  </div>
+
+</div><!-- end #cat-adaptive_cpp -->
 
 <hr>
 
