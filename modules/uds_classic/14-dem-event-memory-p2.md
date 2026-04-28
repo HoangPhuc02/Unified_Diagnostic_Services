@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dem, event-memory, retention, overflow, displacement, reporting]
 description: "DEM Event Memory phần 2 – Quản lý event memory: retention, clearing, overflow, displacement và reporting order."
-permalink: /dem-event-memory-p2/
+permalink: /uds/dem-event-memory-p2/
 ---
 
 # DEM – Event Memory (Part 2): Event Memory Management

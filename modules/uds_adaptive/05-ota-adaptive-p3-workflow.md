@@ -6,7 +6,7 @@ module: true
 category: uds_adaptive
 tags: [autosar-adaptive, ucm, ota-workflow, timing, rollback, activation, state-machine]
 description: "Luồng toàn bộ một OTA campaign từ backend đến activation, timing diagram chi tiết từng phase, cơ chế rollback, và các error case quan trọng."
-permalink: /ota-adaptive-p3/
+permalink: /uds-adaptive/ota-adaptive-p3/
 ---
 
 # OTA Adaptive – Phần 3: Workflow, Timing & Rollback
@@ -326,8 +326,8 @@ Theo ISO 24089:2023 và AUTOSAR_AP_SWS_UCM, một implementation đầy đủ c�
 
 | Phần | Nội dung |
 |---|---|
-| [Phần 1 – Tổng quan](/ota-adaptive-p1/) | Tại sao OTA khác, Classic vs Adaptive, UCM vị trí trong AP |
-| [Phần 2 – Components & API](/ota-adaptive-p2/) | UCM Master/Subordinate, SoftwarePackage format, ara::ucm C++ API |
+| [Phần 1 – Tổng quan](/uds-adaptive/ota-adaptive-p1/) | Tại sao OTA khác, Classic vs Adaptive, UCM vị trí trong AP |
+| [Phần 2 – Components & API](/uds-adaptive/ota-adaptive-p2/) | UCM Master/Subordinate, SoftwarePackage format, ara::ucm C++ API |
 | **Phần 3 – Workflow & Rollback** | Full campaign sequence, timing diagram, rollback, error handling |
 
-**Phần trước ←** [OTA Adaptive Phần 2: Components & API](/ota-adaptive-p2/)
+**Phần trước ←** [OTA Adaptive Phần 2: Components & API](/uds-adaptive/ota-adaptive-p2/)

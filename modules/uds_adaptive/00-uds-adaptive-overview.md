@@ -6,7 +6,7 @@ module: true
 category: uds_adaptive
 tags: [autosar-adaptive, uds, iso-14229, doip, classic-vs-adaptive, ethernet]
 description: "Tại sao UDS Adaptive ra đời, sự khác biệt cốt lõi so với Classic UDS, và tổng quan vị trí trong AUTOSAR Adaptive Platform."
-permalink: /uds-adaptive-p1/
+permalink: /uds-adaptive/uds-adaptive-p1/
 ---
 
 # UDS Adaptive – Phần 1: Tổng quan & So sánh với Classic

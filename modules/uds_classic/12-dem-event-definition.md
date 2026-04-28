@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dem, event, diagnostics, monitor, inhibition, priority]
 description: "Định nghĩa chi tiết Diagnostic Event trong AUTOSAR DEM – ưu tiên, loại, đích, monitor, phụ thuộc và availability."
-permalink: /dem-event-definition/
+permalink: /uds/dem-event-definition/
 ---
 
 # DEM – Diagnostic Event Definition
@@ -807,6 +807,6 @@ Tài liệu này được tổng hợp dựa trên:
 2. AUTOSAR SWS FiM (Function Inhibition Manager) – quan hệ với DEM event dependencies.
 3. ISO 14229-1 – event status byte definition và operation cycle semantics.
 4. Nguồn public: DeepWiki `openAUTOSAR/classic-platform`, EmbeddedTutor AUTOSAR DEM/FiM series.
-5. Tài liệu bổ sung từ [DEM - Functional Description](/dem-functional/) và [DEM - Overview](/dem-overview/).
+5. Tài liệu bổ sung từ [DEM - Functional Description](/uds/dem-functional/) và [DEM - Overview](/uds/dem-overview/).
 
 Tất cả sơ đồ, code ví dụ và liên tưởng được tạo hoàn toàn từ nội dung kiến thức kiến trúc, không sao chép trực tiếp từ tài liệu bản quyền.

@@ -6,7 +6,7 @@ module: true
 category: uds_adaptive
 tags: [autosar-adaptive, ota, ucm, software-update, classic-vs-adaptive]
 description: "Tổng quan về OTA trên AUTOSAR Adaptive Platform – UCM là gì, tại sao cần kiến trúc mới, và so sánh cụ thể với cách update trên Classic Platform."
-permalink: /ota-adaptive-p1/
+permalink: /uds-adaptive/ota-adaptive-p1/
 ---
 
 # OTA Adaptive – Phần 1: Tổng quan & Classic vs Adaptive
@@ -205,4 +205,4 @@ Một **SoftwarePackage** có thể chứa nhiều SoftwareCluster. Package đư
 - **Adaptive Platform**: UCM là FC chuyên biệt, chạy ngầm, quản lý SoftwareCluster-level update, hỗ trợ delta, rollback, xác thực cryptographic, và điều phối đa ECU qua UCM Master
 - UCM expose API `ara::ucm` cho Adaptive Applications và nhận lệnh từ OTA Backend hoặc UCM Master
 
-**Phần tiếp theo →** [OTA Adaptive Phần 2: UCM Components & ara::ucm API](/ota-adaptive-p2/)
+**Phần tiếp theo →** [OTA Adaptive Phần 2: UCM Components & ara::ucm API](/uds-adaptive/ota-adaptive-p2/)

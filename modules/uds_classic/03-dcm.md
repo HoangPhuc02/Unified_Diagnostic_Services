@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dcm, diagnostics, uds, communication]
 description: "Tài liệu kỹ thuật về DCM – điều phối giao tiếp chẩn đoán UDS/KWP/OBD giữa tester và ECU."
-permalink: /dcm/
+permalink: /uds/dcm/
 ---
 
 # DCM - Diagnostic Communication Manager
@@ -112,7 +112,7 @@ Các mục tiêu chức năng điển hình:
 
 ### 4.1 – 4.4 Nền tảng giao thức UDS (tham chiếu)
 
-> Các khái niệm nền tảng sau thuộc về **giao thức UDS** chứ không riêng DCM. Xem chi tiết tại [UDS Overview](/uds-overview/):
+> Các khái niệm nền tảng sau thuộc về **giao thức UDS** chứ không riêng DCM. Xem chi tiết tại [UDS Overview](/uds/uds-overview/):
 > - **Mô hình client-server** – tester là client, ECU/DCM là server, hoạt động request-driven.
 > - **SID / RSID** – mỗi dịch vụ có Service Identifier; positive response = SID + 0x40; negative response = `0x7F + SID + NRC`.
 > - **Cấu trúc diagnostic message** – SID → sub-function → parameters. DCM xử lý payload đã được transport layer tái lắp ghép.
@@ -271,7 +271,7 @@ Tức là DCM là **protocol facade**, còn DEM là **diagnostic state/data owne
 
 ### 4.11 – 4.14 Giao thức UDS: NRC, Timing, TesterPresent, Multi-frame (tham chiếu)
 
-> Các khái niệm sau thuộc về **giao thức UDS / ISO-TP** và được trình bày chi tiết tại [UDS Overview](/uds-overview/) và [CanTp](/cantp/):
+> Các khái niệm sau thuộc về **giao thức UDS / ISO-TP** và được trình bày chi tiết tại [UDS Overview](/uds/uds-overview/) và [CanTp](/communication/cantp/):
 > - **Negative Response Code (NRC)** – bảng NRC chuẩn (`0x11` serviceNotSupported, `0x33` securityAccessDenied, `0x78` ResponsePending, v.v.). DCM phải chọn NRC đúng ngữ nghĩa, không chỉ syntax.
 > - **Timing P2, P2\*, S3Server** – P2 là deadline phản hồi, P2\* cho xử lý kéo dài, S3 là session timeout. ResponsePending `0x78` dùng khi backend cần thêm thời gian.
 > - **TesterPresent (`0x3E`)** – giữ session active, tránh ECU tự rơi về default session.

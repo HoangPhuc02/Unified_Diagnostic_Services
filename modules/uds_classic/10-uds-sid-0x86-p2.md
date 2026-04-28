@@ -6,12 +6,12 @@ nav_exclude: true
 module: true
 tags: [autosar, uds, diagnostics, iso-14229, protocol, roe, event]
 description: "Sub-function 0x01, 0x02, 0x04, 0x07 của SID 0x86 ResponseOnEvent theo ISO 14229-1:2020."
-permalink: /uds-sid-0x86-p2/
+permalink: /uds/uds-sid-0x86-p2/
 ---
 
 # UDS - SID 0x86: ResponseOnEvent (Part 2)
 
-> Tài liệu này là phần tiếp theo của [SID 0x86 – Part 1](/uds-sid-0x86-p1/). SID `0x86`, RSID `0xC6`, sub-function byte encoding (storeEvent bit 6, suppressPosRsp bit 7), `eventWindowTime`, autonomous response, và NRC phổ biến đã giải thích ở Part 1. Part 2 bao gồm các sub-function còn lại: **`0x01` onDTCStatusChange**, **`0x02` onTimerInterrupt**, **`0x04` reportActivatedEvents**, **`0x07` onComparisonOfValues** (ISO 14229-1:2020).
+> Tài liệu này là phần tiếp theo của [SID 0x86 – Part 1](/uds/uds-sid-0x86-p1/). SID `0x86`, RSID `0xC6`, sub-function byte encoding (storeEvent bit 6, suppressPosRsp bit 7), `eventWindowTime`, autonomous response, và NRC phổ biến đã giải thích ở Part 1. Part 2 bao gồm các sub-function còn lại: **`0x01` onDTCStatusChange**, **`0x02` onTimerInterrupt**, **`0x04` reportActivatedEvents**, **`0x07` onComparisonOfValues** (ISO 14229-1:2020).
 
 ## Nhắc nhanh — Ký hiệu dùng xuyên suốt
 
@@ -599,7 +599,7 @@ RESPONSE: 7F 86 31   (DID 0xFFFF không tồn tại)
 | `0x06`★ | clearResponseOnEvent | eventWindowTime | — |
 | `0x07` | onComparisonOfValues (ISO 2020) | eWT + STRT + DID + offset + len + compType + ref + hyst | Extended session |
 
-★ = Được trình bày chi tiết trong [Part 1](/uds-sid-0x86-p1/)
+★ = Được trình bày chi tiết trong [Part 1](/uds/uds-sid-0x86-p1/)
 
 ### 6.2 So sánh event types
 

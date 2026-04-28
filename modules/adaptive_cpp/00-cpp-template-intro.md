@@ -1,12 +1,12 @@
 ---
 layout: default
 title: "Hướng dẫn C++ Templates từ đầu – Tại sao và Làm thế nào"
-nav_exclude: true
-module: true
-category: adaptive_cpp
-tags: [cpp, templates, beginner, tutorial, generics, type-deduction]
 description: "Hướng dẫn C++ Templates từ zero: tại sao cần templates, cách compiler xử lý, function/class template, NTTP, partial specialization – từng bước có giải thích đầy đủ."
-permalink: /cpp-template-intro/
+category: adaptive_cpp
+module: true
+nav_exclude: true
+permalink: /adaptive-cpp/cpp-template-intro/
+tags: [cpp, templates, beginner, tutorial, generics, type-deduction]
 ---
 
 # Hướng dẫn C++ Templates từ đầu
@@ -863,4 +863,4 @@ auto final_result = parse_int("42")          // Result<int>
 | **Dependent name** | Access `Container::type` | Phải thêm `typename` |
 | **Two-phase lookup** | Compiler parse template 2 lần | Tên trong template phải khai báo trước |
 
-**Phần tiếp theo →** [Templates nâng cao: SFINAE & Concepts C++20](/cpp-templates/)
+**Phần tiếp theo →** [Templates nâng cao: SFINAE & Concepts C++20](/adaptive-cpp/cpp-templates/)

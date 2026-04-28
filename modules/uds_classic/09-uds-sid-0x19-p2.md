@@ -6,12 +6,12 @@ nav_exclude: true
 module: true
 tags: [autosar, uds, diagnostics, iso-14229, protocol, dtc, rdtci]
 description: "Sub-function 0x01, 0x05, 0x07-0x0E, 0x0F-0x13, 0x14-0x19, 0x1B của SID 0x19 theo ISO 14229-1:2020."
-permalink: /uds-sid-0x19-p2/
+permalink: /uds/uds-sid-0x19-p2/
 ---
 
 # UDS - SID 0x19: ReadDTCInformation (Part 2)
 
-> Tài liệu này là phần tiếp theo của [SID 0x19 – Part 1](/uds-sid-0x19-p1/). SID `0x19`, RSID `0x59`, DTC Status Byte, DTCStatusAvailabilityMask, và NRC phổ biến đã được giải thích đầy đủ ở Part 1 — tham chiếu lại khi cần. Part 2 bao gồm **tất cả sub-function còn lại**: `0x01`, `0x05`, `0x07`–`0x0E`, `0x0F`–`0x13`, `0x14`–`0x19`, `0x1B`.
+> Tài liệu này là phần tiếp theo của [SID 0x19 – Part 1](/uds/uds-sid-0x19-p1/). SID `0x19`, RSID `0x59`, DTC Status Byte, DTCStatusAvailabilityMask, và NRC phổ biến đã được giải thích đầy đủ ở Part 1 — tham chiếu lại khi cần. Part 2 bao gồm **tất cả sub-function còn lại**: `0x01`, `0x05`, `0x07`–`0x0E`, `0x0F`–`0x13`, `0x14`–`0x19`, `0x1B`.
 
 ## Nhắc nhanh — Ký hiệu dùng xuyên suốt
 
@@ -972,4 +972,4 @@ POSITIVE RESPONSE:
 | `0x55`★ | reportWWHOBDDTCWithPermanentStatus | — | Permanent (WWH) |
 | `0x56`★ | reportDTCInformationByDTCReadinessGroupIdentifier | GroupID | OBD Group |
 
-★ = Được trình bày chi tiết trong [Part 1](/uds-sid-0x19-p1/)
+★ = Được trình bày chi tiết trong [Part 1](/uds/uds-sid-0x19-p1/)

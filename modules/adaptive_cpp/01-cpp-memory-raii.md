@@ -1,12 +1,12 @@
 ---
 layout: default
 title: "Advanced C++ – Phần 2: Memory Management & RAII"
-nav_exclude: true
-module: true
-category: adaptive_cpp
-tags: [cpp, memory, raii, smart-pointers, allocator, memory-model, placement-new]
 description: "Quản lý bộ nhớ nâng cao trong C++: RAII, smart pointers sâu, custom allocator, memory model, và ứng dụng trong AUTOSAR Adaptive Platform."
-permalink: /cpp-memory/
+category: adaptive_cpp
+module: true
+nav_exclude: true
+permalink: /adaptive-cpp/cpp-memory/
+tags: [cpp, memory, raii, smart-pointers, allocator, memory-model, placement-new]
 ---
 
 # Advanced C++ – Phần 2: Memory Management & RAII
@@ -931,8 +931,8 @@ budget.usage();                  // hiện đang dùng bao nhiêu bytes
 | **SPSC LockFreeQueue** | ISR → thread data (no mutex) | CAN frames, sensor data |
 | **CAS pattern** | Atomic update với điều kiện | Max latency tracker |
 
-**← Phần trước:** [C++ Nâng cao Phần 1: Templates & Concepts](/cpp-templates/)  
-**Phần tiếp →:** [C++ Nâng cao Phần 3: Concurrency & Async](/cpp-concurrency/)
+**← Phần trước:** [C++ Nâng cao Phần 1: Templates & Concepts](/adaptive-cpp/cpp-templates/)  
+**Phần tiếp →:** [C++ Nâng cao Phần 3: Concurrency & Async](/adaptive-cpp/cpp-concurrency/)
 
 ```cpp
 // Generic RAII guard – wrap bất kỳ cleanup function
@@ -1428,5 +1428,5 @@ Viết class `MemoryBudget` với:
 | LockFreeQueue | ISR↔thread, producer↔consumer | CAN frame, sensor data |
 | Memory ordering | Fine-grained sync | Stats, flag, lock-free |
 
-**Phần trước ←** [C++ Nâng cao Phần 1: Templates & Concepts](/cpp-templates/)  
-**Phần tiếp →** [C++ Nâng cao Phần 3: Concurrency & Async](/cpp-concurrency/)
+**Phần trước ←** [C++ Nâng cao Phần 1: Templates & Concepts](/adaptive-cpp/cpp-templates/)  
+**Phần tiếp →** [C++ Nâng cao Phần 3: Concurrency & Async](/adaptive-cpp/cpp-concurrency/)

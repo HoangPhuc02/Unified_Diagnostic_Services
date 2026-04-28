@@ -1,12 +1,12 @@
 ---
 layout: default
 title: "Advanced C++ – Phần 4: Design Patterns & AP Architecture"
-nav_exclude: true
-module: true
-category: adaptive_cpp
-tags: [cpp, design-patterns, state-machine, observer, strategy, crtp, adaptive-autosar, ara-com]
 description: "Design patterns nâng cao trong C++ hiện đại – State Machine, Observer, Strategy, CRTP, Policy-based design – và cách chúng hiện diện trong kiến trúc AUTOSAR Adaptive Platform."
-permalink: /cpp-patterns/
+category: adaptive_cpp
+module: true
+nav_exclude: true
+permalink: /adaptive-cpp/cpp-patterns/
+tags: [cpp, design-patterns, state-machine, observer, strategy, crtp, adaptive-autosar, ara-com]
 ---
 
 # Advanced C++ – Phần 4: Design Patterns & AP Architecture
@@ -980,7 +980,7 @@ auto app = di.resolve<UcmApplication>();
 | **Command + Rollback** | Undoable transactions | Virtual base + rollback() | UCM activation steps |
 | **Service Locator** | Global singleton access | `std::any` + `type_index` | Crypto, Logging, Time |
 
-**← Phần trước:** [C++ Nâng cao Phần 3: Concurrency & Async](/cpp-concurrency/)
+**← Phần trước:** [C++ Nâng cao Phần 3: Concurrency & Async](/adaptive-cpp/cpp-concurrency/)
 
 ### 1.1 Variant-based State Machine (type-safe, zero overhead)
 
@@ -1549,4 +1549,4 @@ Dùng template để resolve dependency graph tại compile-time nếu có thể
 | **Command** | Virtual base + rollback() | UCM activation steps |
 | **Service Locator** | `std::any` + `type_index` | AP service registry |
 
-**Phần trước ←** [C++ Nâng cao Phần 3: Concurrency & Async](/cpp-concurrency/)
+**Phần trước ←** [C++ Nâng cao Phần 3: Concurrency & Async](/adaptive-cpp/cpp-concurrency/)

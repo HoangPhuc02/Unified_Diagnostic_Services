@@ -6,7 +6,7 @@ module: true
 category: uds_adaptive
 tags: [autosar-adaptive, ucm, ara-ucm, software-package, ucm-master, ucm-subordinate]
 description: "Chi tiết các thành phần UCM: UCM Master, UCM Subordinate, Package Manager, SoftwarePackage state machine, và ara::ucm C++ API."
-permalink: /ota-adaptive-p2/
+permalink: /uds-adaptive/ota-adaptive-p2/
 ---
 
 # OTA Adaptive – Phần 2: UCM Components & ara::ucm API
@@ -334,5 +334,5 @@ Execution Manager restart process với path từ symlink `active/` → process 
 | **SoftwareCluster** | Đơn vị cập nhật (nhóm executables + config) | Mô tả trong ARXML manifest |
 | **SoftwarePackage** | Archive gửi từ backend | `.swpkg` = ARXML + binaries + PKCS#7 sig |
 
-**Phần trước ←** [OTA Adaptive Phần 1: Tổng quan](/ota-adaptive-p1/)  
-**Phần tiếp theo →** [OTA Adaptive Phần 3: Workflow, Timing & Rollback](/ota-adaptive-p3/)
+**Phần trước ←** [OTA Adaptive Phần 1: Tổng quan](/uds-adaptive/ota-adaptive-p1/)  
+**Phần tiếp theo →** [OTA Adaptive Phần 3: Workflow, Timing & Rollback](/uds-adaptive/ota-adaptive-p3/)

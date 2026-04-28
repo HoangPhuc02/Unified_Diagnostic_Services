@@ -6,7 +6,7 @@ module: true
 category: esp32s3
 tags: [esp32, jtag, platformio, debugging, embedded]
 description: "Step-by-step guide to set up the ESP32-S3 built-in JTAG debugger with PlatformIO on Windows using Zadig driver installation."
-permalink: /esp32s3-jtag/
+permalink: /esp32s3/esp32s3-jtag/
 ---
 
 # ESP32-S3 -- How to Use the Built-in JTAG Debugger

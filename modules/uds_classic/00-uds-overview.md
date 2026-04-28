@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, uds, diagnostics, iso-14229, protocol]
 description: "Tổng quan giao thức UDS (ISO 14229) – nền tảng chẩn đoán tiêu chuẩn trong ngành ô tô."
-permalink: /uds-overview/
+permalink: /uds/uds-overview/
 ---
 
 # UDS - Unified Diagnostic Services Overview
@@ -572,7 +572,7 @@ sequenceDiagram
 	Note over Receiver: If BS reached, send another FC
 ```
 
-Chi tiết đầy đủ về ISO-TP được trình bày tại [CanTp - CAN Transport Protocol](/cantp/).
+Chi tiết đầy đủ về ISO-TP được trình bày tại [CanTp - CAN Transport Protocol](/communication/cantp/).
 
 ## 13. Tổng quan các dịch vụ UDS quan trọng
 

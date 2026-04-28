@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, cantp, transport, iso-15765, can, iso-tp]
 description: "Tài liệu kỹ thuật về CanTp – module transport protocol trên CAN theo ISO 15765-2 trong AUTOSAR Classic."
-permalink: /cantp/
+permalink: /communication/cantp/
 ---
 
 # CanTp - CAN Transport Protocol

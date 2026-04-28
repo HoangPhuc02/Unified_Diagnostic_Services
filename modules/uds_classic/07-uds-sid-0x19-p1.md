@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, uds, diagnostics, iso-14229, protocol, dtc, rdtci]
 description: "Chi tiết sub-function 0x02, 0x03, 0x04, 0x06, 0x1A, 0x42, 0x55, 0x56 của SID 0x19 theo ISO 14229-1:2020."
-permalink: /uds-sid-0x19-p1/
+permalink: /uds/uds-sid-0x19-p1/
 ---
 
 # UDS - SID 0x19: ReadDTCInformation

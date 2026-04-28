@@ -1,4 +1,14 @@
-﻿l
+﻿---
+layout: default
+category: uds
+title: "DEM - Overview"
+nav_exclude: true
+module: true
+tags: [autosar, dem, diagnostics, event-manager, functional]
+description: "DEM Overview – kiến trúc, vị trí trong AUTOSAR stack, khái niệm cốt lõi: Event, DTC, Debouncing, Startup Behaviour."
+permalink: /uds/dem-overview/
+---
+
 5. Các module khác như **DCM**, **FiM**, **BswM**, **NvM** sử dụng hoặc phối hợp với thông tin do DEM quản lý.
 
 Nói ngắn gọn: **DEM không trực tiếp phát hiện lỗi vật lý**, mà DEM là bộ máy hợp nhất, chuẩn hóa, lưu trữ và cung cấp trạng thái chẩn đoán cho toàn ECU.
@@ -488,4 +498,4 @@ Startup behaviour tốt sẽ giúp DEM tránh hai lỗi hệ thống phổ biế
 
 ---
 
-> **Tiếp theo:** [DEM - Functional Description](/dem-functional/)  Functional Description, luồng hoạt động, dependencies và cấu hình chi tiết.
+> **Tiếp theo:** [DEM - Functional Description](/uds/dem-functional/)  Functional Description, luồng hoạt động, dependencies và cấu hình chi tiết.

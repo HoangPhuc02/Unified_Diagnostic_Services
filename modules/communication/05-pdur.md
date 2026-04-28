@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, pdur, communication, routing, pdu]
 description: "Tài liệu kỹ thuật về PduR – module định tuyến PDU giữa các tầng trong AUTOSAR Classic."
-permalink: /pdur/
+permalink: /communication/pdur/
 ---
 
 # PduR - PDU Router

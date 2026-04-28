@@ -6,7 +6,7 @@ module: true
 category: uds_adaptive
 tags: [autosar-adaptive, ara-diag, diagnostic-manager, doip, conversation, dem-adaptive]
 description: "Kiến trúc Diagnostic Manager (DM), ara::diag C++ API, Conversation lifecycle, và DoIP transport trong AUTOSAR Adaptive Platform."
-permalink: /uds-adaptive-p2/
+permalink: /uds-adaptive/uds-adaptive-p2/
 ---
 
 # UDS Adaptive – Phần 2: Kiến trúc & Thành phần

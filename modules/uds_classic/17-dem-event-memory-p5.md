@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dem, freeze-frame, extended-data, snapshot, data-capture, did]
 description: "DEM Event Memory phần 5 – Dữ liệu liên quan event: Freeze Frame, Pre-storage, Extended Data và notification khi dữ liệu thay đổi."
-permalink: /dem-event-memory-p5/
+permalink: /uds/dem-event-memory-p5/
 ---
 
 # DEM – Event Memory (Part 5): Event Related Data

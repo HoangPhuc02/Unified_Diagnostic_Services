@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [doip, iso-13400, ethernet, uds, transport, tcp-ip]
 description: "Tổng quan về DoIP (ISO 13400-2) – giao thức chẩn đoán qua Ethernet, thay thế CanTp trong các xe hiện đại."
-permalink: /doip/
+permalink: /communication/doip/
 ---
 
 # DoIP – Diagnostics over Internet Protocol

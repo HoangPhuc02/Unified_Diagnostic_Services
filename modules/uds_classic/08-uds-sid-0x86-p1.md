@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, uds, diagnostics, iso-14229, protocol, roe, event]
 description: "Chi tiết sub-function 0x00, 0x03, 0x05, 0x06 của SID 0x86 ResponseOnEvent theo ISO 14229-1:2020."
-permalink: /uds-sid-0x86-p1/
+permalink: /uds/uds-sid-0x86-p1/
 ---
 
 # UDS - SID 0x86: ResponseOnEvent

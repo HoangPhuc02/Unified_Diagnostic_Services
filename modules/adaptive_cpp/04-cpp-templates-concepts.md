@@ -1,12 +1,12 @@
 ---
 layout: default
 title: "Advanced C++ – Phần 1: Templates, SFINAE & Concepts"
-nav_exclude: true
-module: true
-category: adaptive_cpp
-tags: [cpp, templates, sfinae, concepts, cpp20, type-traits, metaprogramming]
 description: "Template metaprogramming, SFINAE, Concepts C++20 từ cơ bản đến nâng cao – kèm ứng dụng thực tế trong AUTOSAR Adaptive Platform (ara::com, ara::diag)."
-permalink: /cpp-templates/
+category: adaptive_cpp
+module: true
+nav_exclude: true
+permalink: /adaptive-cpp/cpp-templates/
+tags: [cpp, templates, sfinae, concepts, cpp20, type-traits, metaprogramming]
 ---
 
 # Advanced C++ – Phần 1: Templates nâng cao, SFINAE & Concepts

@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dem, diagnostics, event-manager, functional]
 description: "DEM phần 2 – Functional Description, luồng hoạt động, dependencies và cấu hình."
-permalink: /dem-functional/
+permalink: /uds/dem-functional/
 ---
 
 # DEM - Functional Description

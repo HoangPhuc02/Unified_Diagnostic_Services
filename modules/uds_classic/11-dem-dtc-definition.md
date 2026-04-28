@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dem, dtc, diagnostics, iso14229, saej1939, obd, wwh-obd]
 description: "Định nghĩa chi tiết DTC trong AUTOSAR DEM – định dạng, nhóm, mức độ nghiêm trọng, trạng thái và các thuộc tính liên quan."
-permalink: /dem-dtc-definition/
+permalink: /uds/dem-dtc-definition/
 ---
 
 # DEM – Diagnostic Trouble Code (DTC) Definition

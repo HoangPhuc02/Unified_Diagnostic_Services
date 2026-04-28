@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dem, fault-confirmation, event-combination, obd, enable-conditions, storage-conditions]
 description: "DEM Event Memory phần 4 – Xác nhận lỗi, Event Combination, Enable/Storage Conditions và OBD grouping."
-permalink: /dem-event-memory-p4/
+permalink: /uds/dem-event-memory-p4/
 ---
 
 # DEM – Event Memory (Part 4): Fault Confirmation, Event Combination & Conditions

@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dem, debounce, counter, time-based, fault-detection, fdc]
 description: "DEM Event Memory phần 3 – Debouncing: counter-based, time-based, monitor-internal, khởi tạo và Fault Detection Counter."
-permalink: /dem-event-memory-p3/
+permalink: /uds/dem-event-memory-p3/
 ---
 
 # DEM – Event Memory (Part 3): Debouncing of Diagnostic Events

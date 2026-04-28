@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, com, communication, signal, pdu]
 description: "Tài liệu kỹ thuật về COM – module truyền nhận signal ứng dụng trong AUTOSAR Classic."
-permalink: /com/
+permalink: /uds/com/
 ---
 
 # COM - AUTOSAR Communication Module

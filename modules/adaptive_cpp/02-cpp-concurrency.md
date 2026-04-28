@@ -1,12 +1,12 @@
 ---
 layout: default
 title: "Advanced C++ – Phần 3: Concurrency & Async Programming"
-nav_exclude: true
-module: true
-category: adaptive_cpp
-tags: [cpp, concurrency, async, future, coroutine, thread, cpp20, ara-com]
 description: "Lập trình bất đồng bộ và đa luồng nâng cao trong C++17/20: future/promise, coroutine, thread pool, và ứng dụng trực tiếp trong ara::com / ara::diag Adaptive Platform."
-permalink: /cpp-concurrency/
+category: adaptive_cpp
+module: true
+nav_exclude: true
+permalink: /adaptive-cpp/cpp-concurrency/
+tags: [cpp, concurrency, async, future, coroutine, thread, cpp20, ara-com]
 ---
 
 # Advanced C++ – Phần 3: Concurrency & Async Programming
@@ -1006,8 +1006,8 @@ Khi `fn()` throw: chờ `base_delay * 2^attempt`, thử lại. Cuối cùng reth
 | **std::barrier** | Repeated phase sync | Pipeline stages |
 | **Semaphore** | Bound concurrent access | Connection pool |
 
-**← Phần trước:** [C++ Nâng cao Phần 2: Memory & RAII](/cpp-memory/)  
-**Phần tiếp →:** [C++ Nâng cao Phần 4: Design Patterns & AP Architecture](/cpp-patterns/)
+**← Phần trước:** [C++ Nâng cao Phần 2: Memory & RAII](/adaptive-cpp/cpp-memory/)  
+**Phần tiếp →:** [C++ Nâng cao Phần 4: Design Patterns & AP Architecture](/adaptive-cpp/cpp-patterns/)
 
 ### 1.1 std::thread – tạo và join
 
@@ -1578,5 +1578,5 @@ Thử lại khi exception, delay tăng theo exponential backoff, log attempt cou
 | std::barrier | Repeated phase synchronization | Multi-phase pipeline |
 | Semaphore | Resource count limit | Connection pool |
 
-**Phần trước ←** [C++ Nâng cao Phần 2: Memory & RAII](/cpp-memory/)  
-**Phần tiếp →** [C++ Nâng cao Phần 4: Design Patterns & AP Architecture](/cpp-patterns/)
+**Phần trước ←** [C++ Nâng cao Phần 2: Memory & RAII](/adaptive-cpp/cpp-memory/)  
+**Phần tiếp →** [C++ Nâng cao Phần 4: Design Patterns & AP Architecture](/adaptive-cpp/cpp-patterns/)

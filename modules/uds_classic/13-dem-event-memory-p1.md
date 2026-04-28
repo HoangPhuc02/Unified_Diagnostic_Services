@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dem, event-memory, status-bits, uds, diagnostics]
 description: "DEM Event Memory phần 1 – Quản lý trạng thái event: status bit, monitor status, UDS update, transitions và notification."
-permalink: /dem-event-memory-p1/
+permalink: /uds/dem-event-memory-p1/
 ---
 
 # DEM – Event Memory (Part 1): Event Status Management

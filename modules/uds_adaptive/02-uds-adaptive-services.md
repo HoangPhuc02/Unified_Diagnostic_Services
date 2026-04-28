@@ -6,7 +6,7 @@ module: true
 category: uds_adaptive
 tags: [autosar-adaptive, uds-services, ara-diag, readdatabyidentifier, routinecontrol, authentication]
 description: "Mapping UDS services Classic→Adaptive, ví dụ C++ với ara::diag: ReadDataByIdentifier, RoutineControl, Authentication (SID 0x29)."
-permalink: /uds-adaptive-p3/
+permalink: /uds-adaptive/uds-adaptive-p3/
 ---
 
 # UDS Adaptive – Phần 3: Dịch vụ UDS & Ví dụ Code

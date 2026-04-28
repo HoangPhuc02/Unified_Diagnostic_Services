@@ -6,7 +6,7 @@ nav_exclude: true
 module: true
 tags: [autosar, dem, aging, healing, warning-indicator, MIL, WIR, OBD]
 description: "DEM Event Memory phần 6 – Aging và Healing: cơ chế tự động xóa lỗi cũ, quá trình phục hồi event, và quản lý Warning Indicator (MIL)."
-permalink: /dem-event-memory-p6/
+permalink: /uds/dem-event-memory-p6/
 ---
 
 # DEM – Event Memory (Part 6): Aging, Healing và Warning Indicator
