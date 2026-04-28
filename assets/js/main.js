@@ -264,6 +264,104 @@
   });
 })();
 
+/* ===== Code Block: Language Label + Copy Button ===== */
+(function () {
+  // Map of language identifiers to display labels
+  var LANG_LABELS = {
+    cpp: "C++", c: "C", js: "JavaScript", javascript: "JavaScript",
+    ts: "TypeScript", typescript: "TypeScript",
+    py: "Python", python: "Python",
+    sh: "Shell", bash: "Bash", shell: "Shell",
+    json: "JSON", yaml: "YAML", yml: "YAML",
+    xml: "XML", html: "HTML", css: "CSS",
+    md: "Markdown", markdown: "Markdown",
+    cmake: "CMake", makefile: "Makefile",
+    rs: "Rust", go: "Go", java: "Java",
+    mermaid: "Mermaid", text: "Text", plaintext: "Text"
+  };
+
+  var COPY_ICON  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
+  var CHECK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Find all pre > code blocks (skip mermaid diagrams)
+    document.querySelectorAll(".page-card pre").forEach(function (pre) {
+      // Skip if already wrapped or inside a mermaid diagram
+      if (pre.closest(".mermaid") || pre.parentElement.classList.contains("code-block-wrapper")) return;
+
+      var codeEl = pre.querySelector("code");
+      var langClass = "";
+      if (codeEl) {
+        codeEl.classList.forEach(function (cls) {
+          if (cls.startsWith("language-")) langClass = cls.replace("language-", "");
+        });
+      }
+
+      // Skip mermaid code blocks (will be rendered as diagrams)
+      if (langClass === "mermaid") return;
+
+      var labelText = langClass ? (LANG_LABELS[langClass] || langClass.toUpperCase()) : "Code";
+
+      // Build header bar
+      var header = document.createElement("div");
+      header.className = "code-block-header";
+
+      var langLabel = document.createElement("span");
+      langLabel.className = "code-block-lang";
+      langLabel.textContent = labelText;
+
+      var copyBtn = document.createElement("button");
+      copyBtn.className = "copy-code-btn";
+      copyBtn.innerHTML = COPY_ICON + "<span>Copy</span>";
+      copyBtn.title = "Copy to clipboard";
+
+      header.appendChild(langLabel);
+      header.appendChild(copyBtn);
+
+      // Wrap pre + header in a container
+      var wrapper = document.createElement("div");
+      wrapper.className = "code-block-wrapper";
+
+      pre.parentNode.insertBefore(wrapper, pre);
+      wrapper.appendChild(header);
+      wrapper.appendChild(pre);
+
+      // Copy logic
+      copyBtn.addEventListener("click", function () {
+        var text = codeEl ? codeEl.textContent : pre.textContent;
+        // Use modern Clipboard API with fallback
+        var doFeedback = function () {
+          copyBtn.innerHTML = CHECK_ICON + "<span>Copied!</span>";
+          copyBtn.classList.add("is-copied");
+          setTimeout(function () {
+            copyBtn.innerHTML = COPY_ICON + "<span>Copy</span>";
+            copyBtn.classList.remove("is-copied");
+          }, 2000);
+        };
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(doFeedback, function () {
+            fallbackCopy(text, doFeedback);
+          });
+        } else {
+          fallbackCopy(text, doFeedback);
+        }
+      });
+    });
+  });
+
+  function fallbackCopy(text, callback) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand("copy"); callback(); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+})();
+
 /* ===== Reading Progress Bar ===== */
 (function () {
   document.addEventListener("DOMContentLoaded", function () {
