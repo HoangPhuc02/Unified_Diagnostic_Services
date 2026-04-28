@@ -319,10 +319,11 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   </div>
 
   <div class="cat-section-intro">
-    <p>Series <strong>C++ nâng cao</strong> – Templates &amp; Concepts, RAII &amp; Smart Pointers,
-    Concurrency &amp; Coroutines, Design Patterns. Mỗi bài gồm lý thuyết, code example đầy đủ
-    (C++17/20), ứng dụng thực tế trên <strong>AUTOSAR Adaptive Platform</strong> (ara::com, DM, UCM)
-    và bài tập luyện tập.</p>
+    <p>Series <strong>C++ nâng cao</strong> từ nền tảng đến chuyên sâu – mỗi bài gồm <strong>giải thích từng bước</strong>,
+    ví dụ có chú thích, so sánh cách tiếp cận, lỗi thường gặp và bài tập thực hành.
+    Bắt đầu từ <a href="{{ '/cpp-template-intro/' | relative_url }}">Templates từ đầu</a>,
+    tiếp tục với SFINAE &amp; Concepts, RAII, Concurrency, Design Patterns –
+    ứng dụng thực tế trên <strong>AUTOSAR Adaptive Platform</strong> (ara::com, DM, UCM).</p>
   </div>
 
   <div class="doc-grid">
