@@ -1167,6 +1167,43 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 }
 
 /* Mobile: reduce tab padding so more tabs fit before needing to scroll */
+/* ===== Tab scroll arrow buttons (injected by JS) ===== */
+.cat-tabs-wrapper {
+  position: relative;
+}
+
+.tab-scroll-btn {
+  display: none; /* JS adds .is-visible when needed */
+  position: absolute;
+  top: 0;
+  bottom: 2px; /* stay above the border-bottom of .cat-tabs */
+  width: 40px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+  color: var(--muted);
+  transition: color 0.15s;
+}
+.tab-scroll-btn.is-visible  { display: flex; }
+.tab-scroll-btn.is-disabled { opacity: 0.25; pointer-events: none; }
+.tab-scroll-btn:not(.is-disabled):hover { color: var(--accent); }
+
+.tab-scroll-btn--left {
+  left: 0;
+  background: linear-gradient(to right, var(--surface) 55%, transparent);
+}
+.tab-scroll-btn--right {
+  right: 0;
+  background: linear-gradient(to left, var(--surface) 55%, transparent);
+}
+
+/* When arrows visible, indent the tab bar so tabs aren't covered */
+.cat-tabs.has-scroll-left  { padding-left:  36px; }
+.cat-tabs.has-scroll-right { padding-right: 36px; }
+
 @media (max-width: 600px) {
   .cat-tab {
     padding: 8px 12px;
@@ -1175,22 +1212,6 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   }
   .cat-tab svg { width: 14px; height: 14px; }
   .cat-tab__count { padding: 1px 5px; min-width: 18px; font-size: 0.7rem; }
-
-  /* Right-edge fade on .cat-tabs so users see there are more tabs */
-  .cat-tabs-wrapper {
-    position: relative;
-  }
-  .cat-tabs-wrapper::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40px;
-    height: 100%;
-    background: linear-gradient(to right, transparent, var(--surface));
-    pointer-events: none;
-    border-radius: 0 14px 0 0;
-  }
 }
 
 /* ===== Category Section Intro ===== */

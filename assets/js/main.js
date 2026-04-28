@@ -551,6 +551,8 @@
   document.addEventListener('DOMContentLoaded', function() {
     var tabs = document.querySelectorAll('.cat-tab');
     if (!tabs.length) return;
+
+    // --- switch active tab ---
     tabs.forEach(function(tab) {
       tab.addEventListener('click', function() {
         tabs.forEach(function(t) { t.classList.remove('is-active'); });
@@ -561,7 +563,51 @@
         });
         var target = document.getElementById('cat-' + cat);
         if (target) target.classList.remove('is-hidden');
+        // scroll active tab into view inside the bar
+        tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
       });
     });
+
+    // --- scroll arrow buttons ---
+    var wrapper = document.querySelector('.cat-tabs-wrapper');
+    var bar     = document.querySelector('.cat-tabs');
+    if (!wrapper || !bar) return;
+
+    var btnL = document.createElement('button');
+    var btnR = document.createElement('button');
+    btnL.className = 'tab-scroll-btn tab-scroll-btn--left';
+    btnR.className = 'tab-scroll-btn tab-scroll-btn--right';
+    btnL.setAttribute('aria-label', 'Scroll tabs left');
+    btnR.setAttribute('aria-label', 'Scroll tabs right');
+    btnL.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>';
+    btnR.innerHTML = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>';
+    wrapper.appendChild(btnL);
+    wrapper.appendChild(btnR);
+
+    var STEP = 200;
+
+    function refreshArrows() {
+      var overflows = bar.scrollWidth > bar.clientWidth + 2;
+      if (!overflows) {
+        btnL.classList.remove('is-visible');
+        btnR.classList.remove('is-visible');
+        bar.classList.remove('has-scroll-left', 'has-scroll-right');
+        return;
+      }
+      var atLeft  = bar.scrollLeft <= 2;
+      var atRight = bar.scrollLeft >= bar.scrollWidth - bar.clientWidth - 2;
+      btnL.classList.toggle('is-visible', !atLeft || !atRight); // at least one side visible
+      btnR.classList.toggle('is-visible', !atLeft || !atRight);
+      btnL.classList.toggle('is-disabled', atLeft);
+      btnR.classList.toggle('is-disabled', atRight);
+      bar.classList.toggle('has-scroll-left',  !atLeft);
+      bar.classList.toggle('has-scroll-right', !atRight);
+    }
+
+    btnL.addEventListener('click', function() { bar.scrollBy({ left: -STEP, behavior: 'smooth' }); });
+    btnR.addEventListener('click', function() { bar.scrollBy({ left:  STEP, behavior: 'smooth' }); });
+    bar.addEventListener('scroll', refreshArrows, { passive: true });
+    window.addEventListener('resize', refreshArrows, { passive: true });
+    refreshArrows();
   });
 })();
