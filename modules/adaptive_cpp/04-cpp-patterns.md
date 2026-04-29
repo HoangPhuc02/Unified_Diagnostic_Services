@@ -1549,4 +1549,5 @@ Dùng template để resolve dependency graph tại compile-time nếu có thể
 | **Command** | Virtual base + rollback() | UCM activation steps |
 | **Service Locator** | `std::any` + `type_index` | AP service registry |
 
-**Phần trước ←** [C++ Nâng cao Phần 3: Concurrency & Async](/adaptive-cpp/cpp-concurrency/)
+**← Phần trước:** [C++ Nâng cao Phần 3: Concurrency & Async](/adaptive-cpp/cpp-concurrency/)  
+**Phần tiếp →** [OOP Phần 5: Encapsulation](/adaptive-cpp/cpp-oop-encapsulation/)
