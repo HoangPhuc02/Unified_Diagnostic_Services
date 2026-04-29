@@ -89,33 +89,25 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   </div>
 
   <div class="quick-access">
-    <a class="quick-access__item" href="{{ '/uds-overview/' | relative_url }}">
+    <a class="quick-access__item" href="{{ '/uds/uds-overview/' | relative_url }}">
       <div class="quick-access__icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
       </div>
       <span class="quick-access__text">UDS Overview</span>
     </a>
-    <a class="quick-access__item" href="{{ '/dem-overview/' | relative_url }}">
+    <a class="quick-access__item" href="{{ '/uds/dem-overview/' | relative_url }}">
       <div class="quick-access__icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
       </div>
       <span class="quick-access__text">DEM Module</span>
     </a>
-    <a class="quick-access__item" href="{{ '/dcm/' | relative_url }}">
+    <a class="quick-access__item" href="{{ '/uds/dcm/' | relative_url }}">
       <div class="quick-access__icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
       </div>
       <span class="quick-access__text">DCM Module</span>
     </a>
-    <a class="quick-access__item" href="{{ '/pdur/' | relative_url }}">
-      <div class="quick-access__icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
-      </div>
-      <span class="quick-access__text">PduR Module</span>
-    </a>
-  </div>
-
-  <!-- Search & Filter -->
+    <a class="quick-access__item" href="{{ '/uds/pdur/' | relative_url }}">
   <div class="section-header">
     <h3 class="section-header__title">
       <svg class="section-header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
@@ -254,7 +246,7 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
 
   <div class="cat-section-intro">
     <p>Tài liệu về <strong>AUTOSAR Communication Stack</strong> – PDU Router (PduR), CAN Transport Protocol (CanTp),
-    và Diagnostics over IP (DoIP). Covers ISO 15765-2 (CanTp) và ISO 13400-2 (DoIP).</p>
+    Diagnostics over IP (DoIP) và <strong>Ethernet automotive</strong> (SOME/IP, ara::com, TSN). Covers ISO 15765-2 (CanTp), ISO 13400-2 (DoIP) và kiến trúc SOA trên AUTOSAR Adaptive Platform.</p>
   </div>
 
   <!-- Quick Access -->
@@ -266,23 +258,29 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   </div>
 
   <div class="quick-access">
-    <a class="quick-access__item" href="{{ '/pdur/' | relative_url }}">
+    <a class="quick-access__item" href="{{ '/communication/pdur/' | relative_url }}">
       <div class="quick-access__icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
       </div>
       <span class="quick-access__text">PduR Module</span>
     </a>
-    <a class="quick-access__item" href="{{ '/cantp/' | relative_url }}">
+    <a class="quick-access__item" href="{{ '/communication/cantp/' | relative_url }}">
       <div class="quick-access__icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
       </div>
       <span class="quick-access__text">CAN Transport</span>
     </a>
-    <a class="quick-access__item" href="{{ '/doip/' | relative_url }}">
+    <a class="quick-access__item" href="{{ '/communication/doip/' | relative_url }}">
       <div class="quick-access__icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
       </div>
       <span class="quick-access__text">DoIP Overview</span>
+    </a>
+    <a class="quick-access__item" href="{{ '/communication/ethernet-autosar-adaptive/' | relative_url }}">
+      <div class="quick-access__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/><circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+      </div>
+      <span class="quick-access__text">Ethernet & SOME/IP</span>
     </a>
   </div>
 
@@ -321,7 +319,7 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   <div class="cat-section-intro">
     <p>Series <strong>C++ nâng cao</strong> từ nền tảng đến chuyên sâu – mỗi bài gồm <strong>giải thích từng bước</strong>,
     ví dụ có chú thích, so sánh cách tiếp cận, lỗi thường gặp và bài tập thực hành.
-    Bắt đầu từ <a href="{{ '/cpp-template-intro/' | relative_url }}">Templates từ đầu</a>,
+    Bắt đầu từ <a href="{{ '/adaptive-cpp/cpp-template-intro/' | relative_url }}">Templates từ đầu</a>,
     tiếp tục với SFINAE &amp; Concepts, RAII, Concurrency, Design Patterns –
     ứng dụng thực tế trên <strong>AUTOSAR Adaptive Platform</strong> (ara::com, DM, UCM).</p>
   </div>
