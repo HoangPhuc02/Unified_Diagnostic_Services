@@ -17,6 +17,7 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
 {% assign uds_adaptive_pages  = all_module_pages | where: "category", "uds_adaptive" %}
 {% assign communication_pages = all_module_pages | where: "category", "communication" %}
 {% assign cpp_pages           = all_module_pages | where: "category", "adaptive_cpp" %}
+{% assign uds_sid_pages       = all_module_pages | where: "category", "uds_sid" %}
 
 <!-- Quick Stats -->
 <div class="stats-bar">
@@ -41,14 +42,19 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
     <div class="stat-item__label">Advanced C++</div>
   </div>
   <div class="stat-item">
-    <div class="stat-item__value">ISO 14229</div>
-    <div class="stat-item__label">Standard</div>
+    <div class="stat-item__value">{{ uds_sid_pages | size }}</div>
+    <div class="stat-item__label">UDS SID</div>
   </div>
 </div>
 
 <!-- Category Tabs -->
 <div class="cat-tabs-wrapper">
 <div class="cat-tabs" role="tablist">
+  <button class="cat-tab" data-cat="uds_sid" role="tab" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    UDS Service ID
+    <span class="cat-tab__count">{{ uds_sid_pages | size }}</span>
+  </button>
   <button class="cat-tab is-active" data-cat="uds" role="tab" aria-selected="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
     UDS Classic
@@ -238,6 +244,49 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   </div>
 
 </div><!-- end #cat-uds_adaptive -->
+
+<!-- ===== UDS SID ISO Section ===== -->
+<div class="cat-section is-hidden" id="cat-uds_sid">
+
+  <div class="section-header">
+    <h3 class="section-header__title">
+      <svg class="section-header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      UDS Service ID (ISO 14229)
+      <span class="section-header__count">{{ uds_sid_pages | size }} parts</span>
+    </h3>
+  </div>
+
+  <div class="cat-section-intro">
+    <p>
+        Tài liệu giới thiệu về <strong>các SID trong UDS theo ISO 14229-1:2020</strong>,
+        bao gồm khái niệm <code>Service Identifier</code>, vai trò của SID trong quá trình chẩn đoán ECU,
+        cách phân loại các dịch vụ chẩn đoán như Diagnostic Session Control, ECU Reset,
+        Security Access, Read/Write Data By Identifier, Routine Control, Request Download,
+        Transfer Data và Request Transfer Exit.
+        Tài liệu cũng trình bày ý nghĩa của request SID, positive response SID,
+        negative response, NRC và cách các SID được sử dụng trong luồng giao tiếp
+        giữa diagnostic tester và ECU.
+    </p>
+  </div>
+
+  <div class="doc-grid">
+    {% assign counter = 0 %}
+    {% for p in uds_sid_pages %}
+    {% assign counter = counter | plus: 1 %}
+    <a class="doc-card" href="{{ p.url | relative_url }}" data-tags="{{ p.tags | join: ',' }}">
+      <span class="doc-card__number">{{ counter }}</span>
+      <div class="doc-card__title">{{ p.title }}</div>
+      <p class="doc-card__desc">{{ p.description }}</p>
+      {% if p.tags %}
+      <div class="doc-card__tags">
+        {% for t in p.tags limit: 3 %}<span class="tag-badge">{{ t }}</span>{% endfor %}
+      </div>
+      {% endif %}
+    </a>
+    {% endfor %}
+  </div>
+
+</div><!-- end #cat-uds_sid -->
 
 <!-- ===== Communication Section ===== -->
 <div class="cat-section is-hidden" id="cat-communication">
