@@ -1,6 +1,6 @@
 ---
 layout: default
-category: uds
+category: uds_sid
 title: "UDS - Service ID 0x37 RequestTransferExit (Part 2)"
 nav_exclude: true
 module: true

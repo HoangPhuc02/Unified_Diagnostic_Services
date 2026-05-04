@@ -1,6 +1,6 @@
 ---
 layout: default
-category: uds
+category: uds_sid
 title: "UDS - Service ID 0x34 RequestDownload (Part 1)"
 nav_exclude: true
 module: true

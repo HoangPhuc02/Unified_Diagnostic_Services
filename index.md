@@ -260,9 +260,9 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
     <p>
         Tài liệu giới thiệu về <strong>các SID trong UDS theo ISO 14229-1:2020</strong>,
         bao gồm khái niệm <code>Service Identifier</code>, vai trò của SID trong quá trình chẩn đoán ECU,
-        cách phân loại các dịch vụ chẩn đoán như Diagnostic Session Control, ECU Reset,
+        cách phân loại các dịch vụ chẩn đoán như <code>Diagnostic Session Control, ECU Reset,
         Security Access, Read/Write Data By Identifier, Routine Control, Request Download,
-        Transfer Data và Request Transfer Exit.
+        Transfer Data và Request Transfer Exit.</code>
         Tài liệu cũng trình bày ý nghĩa của request SID, positive response SID,
         negative response, NRC và cách các SID được sử dụng trong luồng giao tiếp
         giữa diagnostic tester và ECU.
