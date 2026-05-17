@@ -18,6 +18,7 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
 {% assign communication_pages = all_module_pages | where: "category", "communication" %}
 {% assign cpp_pages           = all_module_pages | where: "category", "adaptive_cpp" %}
 {% assign uds_sid_pages       = all_module_pages | where: "category", "uds_sid" %}
+{% assign ara_com_pages       = all_module_pages | where: "category", "adaptive_comunication" %}
 
 <!-- Quick Stats -->
 <div class="stats-bar">
@@ -44,6 +45,10 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   <div class="stat-item">
     <div class="stat-item__value">{{ uds_sid_pages | size }}</div>
     <div class="stat-item__label">UDS SID</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-item__value">{{ ara_com_pages | size }}</div>
+    <div class="stat-item__label">ara::com</div>
   </div>
 </div>
 
@@ -79,6 +84,11 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
     Advanced C++
     <span class="cat-tab__count">{{ cpp_pages | size }}</span>
+  </button>
+  <button class="cat-tab" data-cat="adaptive_comunication" role="tab" aria-selected="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M5 12h14M12 5l7 7-7 7"/><circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+    ara::com
+    <span class="cat-tab__count">{{ ara_com_pages | size }}</span>
   </button>
 </div><!-- end .cat-tabs -->
 </div><!-- end .cat-tabs-wrapper -->
@@ -399,6 +409,46 @@ description: Technical documentation for AUTOSAR Diagnostic Stack (UDS/DEM/DCM) 
   </div>
 
 </div><!-- end #cat-adaptive_cpp -->
+
+</div><!-- ===== ara::com Section ===== -->
+<div class="cat-section is-hidden" id="cat-adaptive_comunication">
+
+  <div class="section-header">
+    <h3 class="section-header__title">
+      <svg class="section-header__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/><circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+      ara::com – Communication Middleware
+      <span class="section-header__count">{{ ara_com_pages | size }} parts</span>
+    </h3>
+  </div>
+
+  <div class="cat-section-intro">
+    <p>Tài liệu về <strong>ara::com</strong> – tầng giao tiếp trung gian (middleware) của AUTOSAR Adaptive Platform.
+    Bao gồm mô hình OSI, Proxy/Skeleton pattern, SOME/IP Service Discovery, Network Binding,
+    và cách tích hợp với <code>ara::diag</code> Diagnostic Manager.
+    Chuẩn tham chiếu:
+    <a href="https://www.autosar.org/fileadmin/standards/R25-11/AP/AUTOSAR_AP_SWS_CommunicationManagement.pdf" target="_blank" rel="noopener">AUTOSAR_AP_SWS_CommunicationManagement R25-11</a>.</p>
+  </div>
+
+  <div class="doc-grid">
+    {% assign counter = 0 %}
+    {% for p in ara_com_pages %}
+    {% assign counter = counter | plus: 1 %}
+    <a class="doc-card" href="{{ p.url | relative_url }}" data-tags="{{ p.tags | join: ',' }}">
+      <span class="doc-card__number">{{ counter }}</span>
+      <div class="doc-card__title">{{ p.title }}</div>
+      <p class="doc-card__desc">{{ p.description }}</p>
+      {% if p.tags %}
+      <div class="doc-card__tags">
+        {% for t in p.tags limit: 3 %}<span class="tag-badge">{{ t }}</span>{% endfor %}
+        {% assign tag_count = p.tags | size %}
+        {% if tag_count > 3 %}<span class="tag-badge">+{{ tag_count | minus: 3 }}</span>{% endif %}
+      </div>
+      {% endif %}
+    </a>
+    {% endfor %}
+  </div>
+
+</div><!-- end #cat-adaptive_comunication -->
 
 <hr>
 
