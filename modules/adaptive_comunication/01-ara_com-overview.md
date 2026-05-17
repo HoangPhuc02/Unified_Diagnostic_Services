@@ -727,6 +727,7 @@ handler.Offer();  // → gọi OfferService(ara::com) để DM có thể route r
 
 | Tài liệu | Mô tả |
 |---|---|
+| [ara::com – Intra-ECU & Inter-ECU]({{ '/ara-com/ara-com-intra-inter-ecu/' | relative_url }}) | Giao tiếp giữa các AA trong một ECU và giữa các ECU với nhau |
 | [Phần 1 – OSI & Adaptive Communication]({{ '/uds-adaptive/uds-adaptive-p1/' | relative_url }}) | Vị trí của ara::com trong OSI stack |
 | [UDS Adaptive – Phần 2: Kiến trúc DM]({{ '/uds-adaptive/uds-adaptive-p2/' | relative_url }}) | DM dùng ara::com để giao tiếp AA |
 | [SOME/IP & Ethernet Automotive]({{ '/communication/ethernet-autosar-adaptive/' | relative_url }}) | Giao thức SOME/IP chi tiết |
